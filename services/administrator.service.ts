@@ -29,19 +29,20 @@ async function getAdministrators({ req, res }: Context) {
 
 }
 
-/* GET Participant by id */
-async function getAdministratorsById(rut: string,{ req, res }: Context) {
-    const { db, connection } = await createConnection()
-    const Administrators = db.collection('administrator')
-    const resp = Administrators.findOne({_id : (req.params._id)},
-    function (err, result) {
-        if (err) throw err
-        if (result) {
-            res.json(result)
-        } else {
-            res.status(204).send()
-        }
-    })
+/* GET Administrator by id */
+async function getAdministratorById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
+    const Events = db.collection('administrator')
+    const newId = new ObjectId(req.params._id)
+    const resp = Events.findOne({'_id' : newId})
+    const body = await resp
+    connection.close()
+    if (body) {
+        res.status(200).json( body)
+    } else {
+        res.status(404).send("Participant con Id especificado no existe")
+    }
+    
 }
 
 /* PUT Update a Client */
@@ -86,4 +87,4 @@ async function deleteAdministratorById({ req, res }: Context) {
 
 
 
-export default { CreateAdministrator, getAdministrators, getAdministratorsById, PutAdministratorById, deleteAdministratorById};
+export default { CreateAdministrator, getAdministrators, getAdministratorById, PutAdministratorById, deleteAdministratorById};

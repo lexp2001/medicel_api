@@ -32,19 +32,20 @@ async function getPlanners({ req, res }: Context) {
 
 }
 
-/* GET Participant by id */
+/* GET Administrator by id */
 async function getPlannerById(rut: string,{ req, res }: Context) {
-    const { db, connection } = await createConnection()
-    const Planners = db.collection('administrator')
-    const resp = Planners.findOne({_id : (req.params._id)},
-    function (err, result) {
-        if (err) throw err
-        if (result) {
-            res.json(result)
-        } else {
-            res.status(204).send()
-        }
-    })
+    const { db, connection, ObjectId } = await createConnection()
+    const Events = db.collection('planner')
+    const newId = new ObjectId(req.params._id)
+    const resp = Events.findOne({'_id' : newId})
+    const body = await resp
+    connection.close()
+    if (body) {
+        res.status(200).json( body)
+    } else {
+        res.status(404).send("Participant con Id especificado no existe")
+    }
+    
 }
 
 /* PUT Update a Client */

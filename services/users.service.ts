@@ -32,19 +32,20 @@ async function GetUsers({ req, res }: Context) {
 
 }
 
-/* GET Participant by id */
-async function GetUserById(rut: string,{ req, res }: Context) {
-    const { db, connection } = await createConnection()
-    const Users = db.collection('tips')
-    const resp = Users.findOne({_id : (req.params._id)},
-    function (err, result) {
-        if (err) throw err
-        if (result) {
-            res.json(result)
-        } else {
-            res.status(204).send()
-        }
-    })
+/* GET users by id */
+async function getUserById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
+    const Events = db.collection('users')
+    const newId = new ObjectId(req.params._id)
+    const resp = Events.findOne({'_id' : newId})
+    const body = await resp
+    connection.close()
+    if (body) {
+        res.status(200).json( body)
+    } else {
+        res.status(404).send("Participant con Id especificado no existe")
+    }
+    
 }
 
 /* PUT Update a Client */
@@ -87,4 +88,4 @@ async function DeleteUserById({ req, res }: Context) {
         })
 }
 
-export default { CreateUser, GetUsers, GetUserById, PutUserById, DeleteUserById};
+export default { CreateUser, GetUsers, getUserById, PutUserById, DeleteUserById};

@@ -32,19 +32,20 @@ async function GetTips({ req, res }: Context) {
 
 }
 
-/* GET Participant by id */
-async function GetTipsById(rut: string,{ req, res }: Context) {
-    const { db, connection } = await createConnection()
-    const Tips = db.collection('tips')
-    const resp = Tips.findOne({_id : (req.params._id)},
-    function (err, result) {
-        if (err) throw err
-        if (result) {
-            res.json(result)
-        } else {
-            res.status(204).send()
-        }
-    })
+/* GET tips by id */
+async function getTipsById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
+    const Events = db.collection('tips')
+    const newId = new ObjectId(req.params._id)
+    const resp = Events.findOne({'_id' : newId})
+    const body = await resp
+    connection.close()
+    if (body) {
+        res.status(200).json( body)
+    } else {
+        res.status(404).send("Participant con Id especificado no existe")
+    }
+    
 }
 
 /* PUT Update a Client */
@@ -87,4 +88,4 @@ async function DeleteTipsById({ req, res }: Context) {
         })
 }
 
-export default { CreateTips, GetTips, GetTipsById, PutTipsById, DeleteTipsById};
+export default { CreateTips, GetTips, getTipsById, PutTipsById, DeleteTipsById};

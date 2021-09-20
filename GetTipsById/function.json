@@ -6,7 +6,7 @@
       "direction": "in",
       "name": "req",
       "methods": ["get"],
-      "route": "GetTipsById/{id}"
+      "route": "getTipsById/{id}"
     },
     {
       "type": "http",
@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/GetTipsById/index.js"
+  "scriptFile": "../dist/getTipsById/index.js"
 }

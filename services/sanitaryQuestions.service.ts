@@ -32,19 +32,20 @@ async function GetSanitaryQuestions ({ req, res }: Context) {
 
 }
 
-/* GET Participant by id */
-async function GetSanitaryQuestionById (rut: string,{ req, res }: Context) {
-    const { db, connection } = await createConnection()
-    const sanitaryQuestions = db.collection('sanitaryQuestions')
-    const resp = sanitaryQuestions.findOne({_id : (req.params._id)},
-    function (err, result) {
-        if (err) throw err
-        if (result) {
-            res.json(result)
-        } else {
-            res.status(204).send()
-        }
-    })
+/* GET sanitaryQuestions by id */
+async function getSanitaryQuestionById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
+    const Events = db.collection('sanitaryQuestions')
+    const newId = new ObjectId(req.params._id)
+    const resp = Events.findOne({'_id' : newId})
+    const body = await resp
+    connection.close()
+    if (body) {
+        res.status(200).json( body)
+    } else {
+        res.status(404).send("Participant con Id especificado no existe")
+    }
+    
 }
 
 /* PUT Update a Client */
@@ -87,4 +88,4 @@ async function DeleteSanitaryQuestionById({ req, res }: Context) {
         })
 }
 
-export default { CreateSanitaryQuestion, GetSanitaryQuestions, GetSanitaryQuestionById, PutSanitaryQuestionById,  DeleteSanitaryQuestionById};
+export default { CreateSanitaryQuestion, GetSanitaryQuestions, getSanitaryQuestionById, PutSanitaryQuestionById,  DeleteSanitaryQuestionById};

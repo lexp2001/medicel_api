@@ -31,8 +31,8 @@ async function getEvents({ req, res }: Context) {
 
 }
 
-/* GET Participant by id */
-async function getEventsById(rut: string,{ req, res }: Context) {
+/* GET Event by id */
+async function getEventById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Events = db.collection('event')
     const newId = new ObjectId(req.params._id)
@@ -42,7 +42,7 @@ async function getEventsById(rut: string,{ req, res }: Context) {
     if (body) {
         res.status(200).json( body)
     } else {
-        res.status(404).send("Participant con Id especificado no existe")
+        res.status(404).send("Event con Id especificado no existe")
     }
     
 }
@@ -91,4 +91,4 @@ async function deleteEventById({ req, res }: Context) {
 
 
 
-export default { createEvent, getEvents, getEventsById, PutEventById, deleteEventById};
+export default { createEvent, getEvents, getEventById, PutEventById, deleteEventById};

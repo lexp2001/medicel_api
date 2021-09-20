@@ -58,14 +58,19 @@ async function getParticipantByRut(rut: string,{ req, res }: Context) {
 }
 
 /* GET Participant by id */
-async function getParticipantById({ req, res }: Context) {
-    const { db, connection } = await createConnection()
-    const Participants = db.collection('participant')
-    const resp = Participants.findOne({"_id" : ObjectId(req.params.id)})
+async function getParticipantById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
+    const Events = db.collection('participant')
+    const newId = new ObjectId(req.params._id)
+    const resp = Events.findOne({'_id' : newId})
     const body = await resp
     connection.close()
-    res.status(200).json( body)
-
+    if (body) {
+        res.status(200).json( body)
+    } else {
+        res.status(404).send("Participant con Id especificado no existe")
+    }
+    
 }
 
 /* GET get-organization/:start/:total Ler organizações com filtros e ordem alfabética */

@@ -32,19 +32,20 @@ async function GetPromotions ({ req, res }: Context) {
 
 }
 
-/* GET Participant by id */
-async function GetPromotionById (rut: string,{ req, res }: Context) {
-    const { db, connection } = await createConnection()
-    const Promotions = db.collection('promotion')
-    const resp = Promotions.findOne({_id : (req.params._id)},
-    function (err, result) {
-        if (err) throw err
-        if (result) {
-            res.json(result)
-        } else {
-            res.status(204).send()
-        }
-    })
+/* GET Promotion by id */
+async function getPromotionById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
+    const Events = db.collection('promotion')
+    const newId = new ObjectId(req.params._id)
+    const resp = Events.findOne({'_id' : newId})
+    const body = await resp
+    connection.close()
+    if (body) {
+        res.status(200).json( body)
+    } else {
+        res.status(404).send("Participant con Id especificado no existe")
+    }
+    
 }
 
 /* PUT Update a Client */
@@ -87,4 +88,4 @@ async function DeletePromotionById({ req, res }: Context) {
         })
 }
 
-export default { CreatePromotion, GetPromotions, GetPromotionById, PutPromotionById, DeletePromotionById };
+export default { CreatePromotion, GetPromotions, getPromotionById, PutPromotionById, DeletePromotionById };
