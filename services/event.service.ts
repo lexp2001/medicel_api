@@ -32,7 +32,7 @@ async function getEvents({ req, res }: Context) {
 }
 
 /* GET Event by id */
-async function getEventById(rut: string,{ req, res }: Context) {
+async function getEventsById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Events = db.collection('event')
     const newId = new ObjectId(req.params._id)
@@ -91,4 +91,4 @@ async function deleteEventById({ req, res }: Context) {
 
 
 
-export default { createEvent, getEvents, getEventById, PutEventById, deleteEventById};
+export default { createEvent, getEvents, getEventsById, PutEventById, deleteEventById};

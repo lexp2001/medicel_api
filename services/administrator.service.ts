@@ -40,15 +40,16 @@ async function getAdministratorById(rut: string,{ req, res }: Context) {
     if (body) {
         res.status(200).json( body)
     } else {
-        res.status(404).send("Participant con Id especificado no existe")
+        res.status(404).send("Administraor con Id especificado no existe")
     }
     
 }
 
 /* PUT Update a Client */
-async function PutAdministratorById({ req, res }: Context) {
-    const { db, connection } = await createConnection()
+async function putAdministratorById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
     const Administrators = db.collection('administrator')
+    const newId = new ObjectId(req.params._id)
     const resp = Administrators.findOneAndUpdate(
     { "id": (req.params.id) },
     { $set: req.body },
@@ -87,4 +88,4 @@ async function deleteAdministratorById({ req, res }: Context) {
 
 
 
-export default { CreateAdministrator, getAdministrators, getAdministratorById, PutAdministratorById, deleteAdministratorById};
+export default { CreateAdministrator, getAdministrators, getAdministratorById, putAdministratorById, deleteAdministratorById};
