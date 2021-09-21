@@ -6,7 +6,7 @@
       "direction": "in",
       "name": "req",
       "methods": ["put"],
-      "route": "PutTipsById/{id}"
+      "route": "PutTipsById/{_id}"
     },
     {
       "type": "http",

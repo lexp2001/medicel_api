@@ -61,7 +61,7 @@ async function getParticipantByRut(rut: string,{ req, res }: Context) {
 async function getParticipantById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Events = db.collection('participant')
-    const newId = new ObjectId(req.params._id)
+    const newId = new ObjectId(req.params.id)
     const resp = Events.findOne({'_id' : newId})
     const body = await resp
     connection.close()
@@ -98,26 +98,25 @@ async function getParticipantStartTotal({ req, res }: Context) {
 }
 
 /* PUT Update a Client */
-async function PutParticipantByRut({ req, res }: Context) {
-    const { db, connection } = await createConnection()
-    const Participants = db.collection('participant')
-    const resp = Participants.findOneAndUpdate(
-        { "rut": (req.params.rut) },
-        { $set: req.body },
-
-        function (err, item) {
-            if (err) throw err
-            if (err) {
-                res.status(500).send("Error intentando actualizar el usuario")
+async function PutParticipantById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
+    const Administrators = db.collection('participant')
+    const newId = new ObjectId(req.params.id)
+    const resp = Administrators.findOneAndUpdate(
+    { "id": (req.params.id) },
+    { $set: req.body },
+    function (err, item) {
+        if (err) throw err
+        if (err) {
+            res.status(500).send("Error intentando actualizar el usuario")
+        } else {
+            if (item.value == null) {
+                res.status(404).send("Usuario con Id especificado no existe")
             } else {
-                if (item.value == null) {
-                    res.status(404).send("Usuario con Id especificado no existe")
-                } else {
-                    res.status(202).json(item.value)
-                }
+                res.status(202).json(item.value)
             }
-        })
-
+        }
+    })
 }
 
 /* GET getParticipantWithSQuestions */
@@ -191,24 +190,20 @@ async function deleteParticipantByRut({ req, res }: Context) {
         })
 }
 
-/* DELETE delete a participant by Id  */
-async function deleteParticipantById({ req, res }: Context) {
-    const { db, connection } = await createConnection()
+/* DELETE a administrator by Id  */
+async function DeleteParticipantById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
     const Participants = db.collection('participant')
-    const resp = Participants.deleteOne(
-        {"_id": (req.params.id)},
-        function (err, result) {
-            if (err) {
-                res.status(500).send("Error intentando eliminar el usuario")
-            } else {
-                if (result.deletedCount == 0) {
-                    res.status(404).send("Usuario no existe")
-                } else {
-                    res.status(202).json({ "rut": req.params.id })
-                }
-            }
-        })
-        
+    const newId = new ObjectId(req.params.id)
+    const resp = Participants.deleteOne({'_id' : newId})
+    const body = await resp
+    connection.close()
+    if (body) {
+        res.status(200).json( body)
+    } else {
+        res.status(404).send("Participant con Id especificado no existe")
+    }
+    
 }
 
 
@@ -230,4 +225,4 @@ async function deleteParticipant({ req, res }: Context) {
     // ...
 }
 
-export default { getParticipants, getParticipantByRut, getParticipantsWithSQuestions, getParticipantById, getParticipantsByOrderByComunitySkLm, getParticipantStartTotal, createParticipant, deleteParticipantById, deleteParticipantByRut, postParticipant, putParticipant, PutParticipantByRut, deleteParticipant };
+export default { getParticipants, getParticipantByRut, getParticipantsWithSQuestions, getParticipantById, getParticipantsByOrderByComunitySkLm, getParticipantStartTotal, createParticipant, DeleteParticipantById, deleteParticipantByRut, postParticipant, putParticipant, PutParticipantById,deleteParticipant };

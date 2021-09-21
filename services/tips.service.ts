@@ -35,9 +35,9 @@ async function GetTips({ req, res }: Context) {
 /* GET tips by id */
 async function getTipsById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
-    const Events = db.collection('tips')
-    const newId = new ObjectId(req.params._id)
-    const resp = Events.findOne({'_id' : newId})
+    const Tips = db.collection('tips')
+    const newId = new ObjectId(req.params.id)
+    const resp = Tips.findOne({'_id' : newId})
     const body = await resp
     connection.close()
     if (body) {
@@ -49,9 +49,10 @@ async function getTipsById(rut: string,{ req, res }: Context) {
 }
 
 /* PUT Update a Client */
-async function PutTipsById({ req, res }: Context) {
-    const { db, connection } = await createConnection()
+async function PutTipsById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
     const Tips = db.collection('tips')
+    const newId = new ObjectId(req.params.id)
     const resp = Tips.findOneAndUpdate(
     { "id": (req.params.id) },
     { $set: req.body },
@@ -69,23 +70,20 @@ async function PutTipsById({ req, res }: Context) {
     })
 }
 
-/* DELETE delete a administrator by Id  */
-async function DeleteTipsById({ req, res }: Context) {
-    const { db, connection } = await createConnection()
-    const tips = db.collection('planner')
-    const resp = tips.deleteOne(
-        {"id": (req.params.id)},
-        function (err, result) {
-            if (err) {
-                res.status(500).send("Error intentando eliminar el usuario")
-            } else {
-                if (result.deletedCount == 0) {
-                    res.status(404).send("Usuario no existe")
-                } else {
-                    res.status(202).json({ "id": req.params.id })
-                }
-            }
-        })
+/* DELETE a administrator by Id  */
+async function DeleteTipsById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
+    const Tips = db.collection('tips')
+    const newId = new ObjectId(req.params.id)
+    const resp = Tips.deleteOne({'_id' : newId})
+    const body = await resp
+    connection.close()
+    if (body) {
+        res.status(200).json( body)
+    } else {
+        res.status(404).send("Tips con Id especificado no existe")
+    }
+    
 }
 
 export default { CreateTips, GetTips, getTipsById, PutTipsById, DeleteTipsById};

@@ -35,7 +35,7 @@ async function getEvents({ req, res }: Context) {
 async function getEventsById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Events = db.collection('event')
-    const newId = new ObjectId(req.params._id)
+    const newId = new ObjectId(req.params.id)
     const resp = Events.findOne({'_id' : newId})
     const body = await resp
     connection.close()
@@ -49,10 +49,11 @@ async function getEventsById(rut: string,{ req, res }: Context) {
 
 
 /* PUT Update a Client */
-async function PutEventById({ req, res }: Context) {
-    const { db, connection } = await createConnection()
-    const Events = db.collection('event')
-    const resp = Events.findOneAndUpdate(
+async function PutEventById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
+    const Administrators = db.collection('event')
+    const newId = new ObjectId(req.params.id)
+    const resp = Administrators.findOneAndUpdate(
     { "id": (req.params.id) },
     { $set: req.body },
     function (err, item) {
@@ -69,26 +70,23 @@ async function PutEventById({ req, res }: Context) {
     })
 }
 
-/* DELETE delete a participant by rut  */
-async function deleteEventById({ req, res }: Context) {
-    const { db, connection } = await createConnection()
+/* DELETE a administrator by Id  */
+async function DeleteEventById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
     const Events = db.collection('event')
-    const resp = Events.deleteOne(
-        {"id": (req.params.id)},
-        function (err, result) {
-            if (err) {
-                res.status(500).send("Error intentando eliminar el usuario")
-            } else {
-                if (result.deletedCount == 0) {
-                    res.status(404).send("Usuario no existe")
-                } else {
-                    res.status(202).json({ "id": req.params.id })
-                }
-            }
-        })
+    const newId = new ObjectId(req.params.id)
+    const resp = Events.deleteOne({'_id' : newId})
+    const body = await resp
+    connection.close()
+    if (body) {
+        res.status(200).json( body)
+    } else {
+        res.status(404).send("Administraor con Id especificado no existe")
+    }
+    
 }
 
 
 
 
-export default { createEvent, getEvents, getEventsById, PutEventById, deleteEventById};
+export default { createEvent, getEvents, getEventsById, PutEventById, DeleteEventById};

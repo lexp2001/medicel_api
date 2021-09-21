@@ -36,7 +36,7 @@ async function GetUsers({ req, res }: Context) {
 async function getUsersById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Events = db.collection('users')
-    const newId = new ObjectId(req.params._id)
+    const newId = new ObjectId(req.params.id)
     const resp = Events.findOne({'_id' : newId})
     const body = await resp
     connection.close()
@@ -49,10 +49,11 @@ async function getUsersById(rut: string,{ req, res }: Context) {
 }
 
 /* PUT Update a Client */
-async function PutUserById({ req, res }: Context) {
-    const { db, connection } = await createConnection()
-    const Users = db.collection('tips')
-    const resp = Users.findOneAndUpdate(
+async function PutUserById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
+    const users = db.collection('users')
+    const newId = new ObjectId(req.params.id)
+    const resp = users.findOneAndUpdate(
     { "id": (req.params.id) },
     { $set: req.body },
     function (err, item) {
@@ -69,23 +70,20 @@ async function PutUserById({ req, res }: Context) {
     })
 }
 
-/* DELETE delete a administrator by Id  */
-async function DeleteUserById({ req, res }: Context) {
-    const { db, connection } = await createConnection()
-    const Users = db.collection('planner')
-    const resp = Users.deleteOne(
-        {"id": (req.params.id)},
-        function (err, result) {
-            if (err) {
-                res.status(500).send("Error intentando eliminar el usuario")
-            } else {
-                if (result.deletedCount == 0) {
-                    res.status(404).send("Usuario no existe")
-                } else {
-                    res.status(202).json({ "id": req.params.id })
-                }
-            }
-        })
+/* DELETE a administrator by Id  */
+async function DeleteUserById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
+    const Users = db.collection('users')
+    const newId = new ObjectId(req.params.id)
+    const resp = Users.deleteOne({'_id' : newId})
+    const body = await resp
+    connection.close()
+    if (body) {
+        res.status(200).json( body)
+    } else {
+        res.status(404).send("User con Id especificado no existe")
+    }
+    
 }
 
 export default { CreateUser, GetUsers, getUsersById, PutUserById, DeleteUserById};

@@ -21,7 +21,7 @@ async function createPlanner ({ req, res }: Context) {
 }
 
 
-/* GET Administrators */
+/* GET planners */
 async function getPlanners({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Planners = db.collection('planner')
@@ -32,26 +32,27 @@ async function getPlanners({ req, res }: Context) {
 
 }
 
-/* GET Administrator by id */
-async function getPlannerById(rut: string,{ req, res }: Context) {
+/* GET planner by id */
+async function GetPlannerById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
-    const Events = db.collection('planner')
-    const newId = new ObjectId(req.params._id)
-    const resp = Events.findOne({'_id' : newId})
+    const Planners = db.collection('planner')
+    const newId = new ObjectId(req.params.id)
+    const resp = Planners.findOne({'_id' : newId})
     const body = await resp
     connection.close()
     if (body) {
         res.status(200).json( body)
     } else {
-        res.status(404).send("Participant con Id especificado no existe")
+        res.status(404).send("Planner con Id especificado no existe")
     }
     
 }
 
 /* PUT Update a Client */
-async function PutPlannerById({ req, res }: Context) {
-    const { db, connection } = await createConnection()
+async function PutPlannerById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
     const Planners = db.collection('planner')
+    const newId = new ObjectId(req.params.id)
     const resp = Planners.findOneAndUpdate(
     { "id": (req.params.id) },
     { $set: req.body },
@@ -69,24 +70,21 @@ async function PutPlannerById({ req, res }: Context) {
     })
 }
 
-/* DELETE delete a administrator by Id  */
-async function deletePlannerById({ req, res }: Context) {
-    const { db, connection } = await createConnection()
+/* DELETE a administrator by Id  */
+async function DeletePlannerById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
     const Planners = db.collection('planner')
-    const resp = Planners.deleteOne(
-        {"id": (req.params.id)},
-        function (err, result) {
-            if (err) {
-                res.status(500).send("Error intentando eliminar el usuario")
-            } else {
-                if (result.deletedCount == 0) {
-                    res.status(404).send("Usuario no existe")
-                } else {
-                    res.status(202).json({ "id": req.params.id })
-                }
-            }
-        })
+    const newId = new ObjectId(req.params.id)
+    const resp = Planners.deleteOne({'_id' : newId})
+    const body = await resp
+    connection.close()
+    if (body) {
+        res.status(200).json( body)
+    } else {
+        res.status(404).send("Planner con Id especificado no existe")
+    }
+    
 }
 
 
-export default { createPlanner, getPlanners, getPlannerById, PutPlannerById, deletePlannerById};
+export default { createPlanner, getPlanners, GetPlannerById, PutPlannerById, DeletePlannerById};
