@@ -2,7 +2,7 @@ import { Context } from '@azure/functions'
 import { createConnection } from '../shared/mongo'
 
 
-/* POST Create a new event */
+/* POST Create a new administrator */
 async function CreateAdministrator ({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Administrators = db.collection('administrator')
@@ -47,7 +47,7 @@ async function getAdministratorById(rut: string,{ req, res }: Context) {
 
 
 
-/* PUT Update a Client */
+/* PUT Update a administrator */
 async function PutAdministratorById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Administrators = db.collection('administrator')

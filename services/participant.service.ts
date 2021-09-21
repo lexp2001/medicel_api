@@ -73,7 +73,7 @@ async function getParticipantById(rut: string,{ req, res }: Context) {
     
 }
 
-/* GET get-organization/:start/:total Ler organizações com filtros e ordem alfabética */
+/* GET getParticipantStartTotal Ler organizações com filtros e ordem alfabética */
 async function getParticipantStartTotal({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Participants = db.collection('participant')
@@ -97,7 +97,7 @@ async function getParticipantStartTotal({ req, res }: Context) {
     res.status(200).json( body)
 }
 
-/* PUT Update a Client */
+/* PUT Update a participant */
 async function PutParticipantById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Administrators = db.collection('participant')
@@ -171,7 +171,7 @@ async function getParticipantsByOrderByComunitySkLm({ req, res }: Context) {
     res.status(200).json( body)
 }
 
-/* DELETE delete a participant by rut  */
+/* DELETE a participant by rut  */
 async function deleteParticipantByRut({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Participants = db.collection('participant')
@@ -190,7 +190,7 @@ async function deleteParticipantByRut({ req, res }: Context) {
         })
 }
 
-/* DELETE a administrator by Id  */
+/* DELETE a participant by Id  */
 async function DeleteParticipantById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Participants = db.collection('participant')

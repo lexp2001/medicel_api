@@ -5,7 +5,7 @@ import { createConnection } from '../shared/mongo'
 // This was async function getParticipants(req: Request, res: Response) {
 // 👇
 
-/* POST Create a new event */
+/* POST Create a new sanitaryQuestions */
 async function CreateSanitaryQuestion ({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const sanitaryQuestions = db.collection('sanitaryQuestions')
@@ -21,7 +21,7 @@ async function CreateSanitaryQuestion ({ req, res }: Context) {
 }
 
 
-/* GET Administrators */
+/* GET sanitaryQuestions */
 async function GetSanitaryQuestions ({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const sanitaryQuestions = db.collection('sanitaryQuestions')
@@ -48,7 +48,7 @@ async function getSanitaryQuestionById(rut: string,{ req, res }: Context) {
     
 }
 
-/* PUT Update a Client */
+/* PUT Update a sanitaryQuestions */
 async function PutSanitaryQuestionById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const sanitaryQuestions = db.collection('sanitaryQuestions')
@@ -70,7 +70,7 @@ async function PutSanitaryQuestionById(rut: string,{ req, res }: Context) {
     })
 }
 
-/* DELETE a administrator by Id  */
+/* DELETE a sanitaryQuestions by Id  */
 async function DeleteSanitaryQuestionById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const sanitaryQuestions = db.collection('sanitaryQuestions')

@@ -5,7 +5,7 @@ import { createConnection } from '../shared/mongo'
 // This was async function getParticipants(req: Request, res: Response) {
 // 👇
 
-/* POST Create a new event */
+/* POST Create a new promotion */
 async function CreatePromotion ({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Promotions = db.collection('promotion')
@@ -21,7 +21,7 @@ async function CreatePromotion ({ req, res }: Context) {
 }
 
 
-/* GET Administrators */
+/* GET promotions */
 async function GetPromotions ({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Promotions = db.collection('promotion')
@@ -33,7 +33,7 @@ async function GetPromotions ({ req, res }: Context) {
 }
 
 /* GET Promotion by id */
-async function getPromotionById(rut: string,{ req, res }: Context) {
+async function getPromotionsById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Promotions = db.collection('promotion')
     const newId = new ObjectId(req.params.id)
@@ -48,7 +48,7 @@ async function getPromotionById(rut: string,{ req, res }: Context) {
     
 }
 
-/* PUT Update a Client */
+/* PUT Update a promotion */
 async function PutPromotionById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Promotions = db.collection('promotion')
@@ -70,7 +70,7 @@ async function PutPromotionById(rut: string,{ req, res }: Context) {
     })
 }
 
-/* DELETE a administrator by Id  */
+/* DELETE a promotion by Id  */
 async function DeletePromotionById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Promotions = db.collection('promotion')
@@ -86,4 +86,4 @@ async function DeletePromotionById(rut: string,{ req, res }: Context) {
     
 }
 
-export default { CreatePromotion, GetPromotions, getPromotionById, PutPromotionById, DeletePromotionById };
+export default { CreatePromotion, GetPromotions, getPromotionsById, PutPromotionById, DeletePromotionById };

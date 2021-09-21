@@ -20,7 +20,7 @@ async function createEvent({ req, res }: Context) {
 
 }
 
-/* GET Participants */
+/* GET events */
 async function getEvents({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Events = db.collection('event')
@@ -48,7 +48,7 @@ async function getEventsById(rut: string,{ req, res }: Context) {
 }
 
 
-/* PUT Update a Client */
+/* PUT Update a event */
 async function PutEventById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Administrators = db.collection('event')
@@ -70,7 +70,7 @@ async function PutEventById(rut: string,{ req, res }: Context) {
     })
 }
 
-/* DELETE a administrator by Id  */
+/* DELETE a event by Id  */
 async function DeleteEventById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Events = db.collection('event')

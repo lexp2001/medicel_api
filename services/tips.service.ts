@@ -5,7 +5,7 @@ import { createConnection } from '../shared/mongo'
 // This was async function getParticipants(req: Request, res: Response) {
 // 👇
 
-/* POST Create a new event */
+/* POST Create a new tip */
 async function CreateTips ({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Tips = db.collection('tips')
@@ -21,7 +21,7 @@ async function CreateTips ({ req, res }: Context) {
 }
 
 
-/* GET Administrators */
+/* GET tips */
 async function GetTips({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Tips = db.collection('tips')
@@ -32,7 +32,7 @@ async function GetTips({ req, res }: Context) {
 
 }
 
-/* GET tips by id */
+/* GET tip by id */
 async function getTipsById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Tips = db.collection('tips')
@@ -48,7 +48,7 @@ async function getTipsById(rut: string,{ req, res }: Context) {
     
 }
 
-/* PUT Update a Client */
+/* PUT Update a tip */
 async function PutTipsById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Tips = db.collection('tips')
@@ -70,7 +70,7 @@ async function PutTipsById(rut: string,{ req, res }: Context) {
     })
 }
 
-/* DELETE a administrator by Id  */
+/* DELETE a tip by Id  */
 async function DeleteTipsById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Tips = db.collection('tips')
