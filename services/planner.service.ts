@@ -5,7 +5,7 @@ import { createConnection } from '../shared/mongo'
 // This was async function getParticipants(req: Request, res: Response) {
 // 👇
 
-/* POST Create a new event */
+/* POST Create a new planner */
 async function createPlanner ({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Planners = db.collection('planner')
@@ -48,7 +48,7 @@ async function GetPlannerById(rut: string,{ req, res }: Context) {
     
 }
 
-/* PUT Update a Client */
+/* PUT Update a planner */
 async function PutPlannerById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Planners = db.collection('planner')
@@ -70,7 +70,7 @@ async function PutPlannerById(rut: string,{ req, res }: Context) {
     })
 }
 
-/* DELETE a administrator by Id  */
+/* DELETE a planner by Id  */
 async function DeletePlannerById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Planners = db.collection('planner')
