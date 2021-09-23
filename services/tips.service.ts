@@ -5,7 +5,7 @@ import { createConnection } from '../shared/mongo'
 // This was async function getParticipants(req: Request, res: Response) {
 // 👇
 
-/* POST Create a new event */
+/* POST Create a new tip */
 async function CreateTips ({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Tips = db.collection('tips')
@@ -21,7 +21,7 @@ async function CreateTips ({ req, res }: Context) {
 }
 
 
-/* GET Administrators */
+/* GET tips */
 async function GetTips({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Tips = db.collection('tips')
@@ -32,25 +32,27 @@ async function GetTips({ req, res }: Context) {
 
 }
 
-/* GET Participant by id */
-async function GetTipsById(rut: string,{ req, res }: Context) {
-    const { db, connection } = await createConnection()
+/* GET tip by id */
+async function getTipsById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
     const Tips = db.collection('tips')
-    const resp = Tips.findOne({_id : (req.params._id)},
-    function (err, result) {
-        if (err) throw err
-        if (result) {
-            res.json(result)
-        } else {
-            res.status(204).send()
-        }
-    })
+    const newId = new ObjectId(req.params.id)
+    const resp = Tips.findOne({'_id' : newId})
+    const body = await resp
+    connection.close()
+    if (body) {
+        res.status(200).json( body)
+    } else {
+        res.status(404).send("Participant con Id especificado no existe")
+    }
+    
 }
 
-/* PUT Update a Client */
-async function PutTipsById({ req, res }: Context) {
-    const { db, connection } = await createConnection()
+/* PUT Update a tip */
+async function PutTipsById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
     const Tips = db.collection('tips')
+    const newId = new ObjectId(req.params.id)
     const resp = Tips.findOneAndUpdate(
     { "id": (req.params.id) },
     { $set: req.body },
@@ -68,23 +70,20 @@ async function PutTipsById({ req, res }: Context) {
     })
 }
 
-/* DELETE delete a administrator by Id  */
-async function DeleteTipsById({ req, res }: Context) {
-    const { db, connection } = await createConnection()
-    const tips = db.collection('planner')
-    const resp = tips.deleteOne(
-        {"id": (req.params.id)},
-        function (err, result) {
-            if (err) {
-                res.status(500).send("Error intentando eliminar el usuario")
-            } else {
-                if (result.deletedCount == 0) {
-                    res.status(404).send("Usuario no existe")
-                } else {
-                    res.status(202).json({ "id": req.params.id })
-                }
-            }
-        })
+/* DELETE a tip by Id  */
+async function DeleteTipsById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
+    const Tips = db.collection('tips')
+    const newId = new ObjectId(req.params.id)
+    const resp = Tips.deleteOne({'_id' : newId})
+    const body = await resp
+    connection.close()
+    if (body) {
+        res.status(200).json( body)
+    } else {
+        res.status(404).send("Tips con Id especificado no existe")
+    }
+    
 }
 
-export default { CreateTips, GetTips, GetTipsById, PutTipsById, DeleteTipsById};
+export default { CreateTips, GetTips, getTipsById, PutTipsById, DeleteTipsById};

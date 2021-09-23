@@ -6,7 +6,7 @@
       "direction": "in",
       "name": "req",
       "methods": ["put"],
-      "route": "PutPlannerById/{id}"
+      "route": "PutPlannerById/{_id}"
     },
     {
       "type": "http",

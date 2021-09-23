@@ -5,7 +5,7 @@ import { createConnection } from '../shared/mongo'
 // This was async function getParticipants(req: Request, res: Response) {
 // 👇
 
-/* POST Create a new event */
+/* POST Create a new sanitaryQuestions */
 async function CreateSanitaryQuestion ({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const sanitaryQuestions = db.collection('sanitaryQuestions')
@@ -21,7 +21,7 @@ async function CreateSanitaryQuestion ({ req, res }: Context) {
 }
 
 
-/* GET Administrators */
+/* GET sanitaryQuestions */
 async function GetSanitaryQuestions ({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const sanitaryQuestions = db.collection('sanitaryQuestions')
@@ -32,25 +32,27 @@ async function GetSanitaryQuestions ({ req, res }: Context) {
 
 }
 
-/* GET Participant by id */
-async function GetSanitaryQuestionById (rut: string,{ req, res }: Context) {
-    const { db, connection } = await createConnection()
+/* GET sanitaryQuestions by id */
+async function getSanitaryQuestionById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
     const sanitaryQuestions = db.collection('sanitaryQuestions')
-    const resp = sanitaryQuestions.findOne({_id : (req.params._id)},
-    function (err, result) {
-        if (err) throw err
-        if (result) {
-            res.json(result)
-        } else {
-            res.status(204).send()
-        }
-    })
+    const newId = new ObjectId(req.params.id)
+    const resp = sanitaryQuestions.findOne({'_id' : newId})
+    const body = await resp
+    connection.close()
+    if (body) {
+        res.status(200).json( body)
+    } else {
+        res.status(404).send("Participant con Id especificado no existe")
+    }
+    
 }
 
-/* PUT Update a Client */
-async function PutSanitaryQuestionById({ req, res }: Context) {
-    const { db, connection } = await createConnection()
+/* PUT Update a sanitaryQuestions */
+async function PutSanitaryQuestionById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
     const sanitaryQuestions = db.collection('sanitaryQuestions')
+    const newId = new ObjectId(req.params.id)
     const resp = sanitaryQuestions.findOneAndUpdate(
     { "id": (req.params.id) },
     { $set: req.body },
@@ -68,23 +70,20 @@ async function PutSanitaryQuestionById({ req, res }: Context) {
     })
 }
 
-/* DELETE delete a administrator by Id  */
-async function DeleteSanitaryQuestionById({ req, res }: Context) {
-    const { db, connection } = await createConnection()
+/* DELETE a sanitaryQuestions by Id  */
+async function DeleteSanitaryQuestionById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
     const sanitaryQuestions = db.collection('sanitaryQuestions')
-    const resp = sanitaryQuestions.deleteOne(
-        {"id": (req.params.id)},
-        function (err, result) {
-            if (err) {
-                res.status(500).send("Error intentando eliminar el usuario")
-            } else {
-                if (result.deletedCount == 0) {
-                    res.status(404).send("Usuario no existe")
-                } else {
-                    res.status(202).json({ "id": req.params.id })
-                }
-            }
-        })
+    const newId = new ObjectId(req.params.id)
+    const resp = sanitaryQuestions.deleteOne({'_id' : newId})
+    const body = await resp
+    connection.close()
+    if (body) {
+        res.status(200).json( body)
+    } else {
+        res.status(404).send("sanitaryQuestion con Id especificado no existe")
+    }
+    
 }
 
-export default { CreateSanitaryQuestion, GetSanitaryQuestions, GetSanitaryQuestionById, PutSanitaryQuestionById,  DeleteSanitaryQuestionById};
+export default { CreateSanitaryQuestion, GetSanitaryQuestions, getSanitaryQuestionById, PutSanitaryQuestionById,  DeleteSanitaryQuestionById};

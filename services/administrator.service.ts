@@ -2,7 +2,7 @@ import { Context } from '@azure/functions'
 import { createConnection } from '../shared/mongo'
 
 
-/* POST Create a new event */
+/* POST Create a new administrator */
 async function CreateAdministrator ({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Administrators = db.collection('administrator')
@@ -29,25 +29,29 @@ async function getAdministrators({ req, res }: Context) {
 
 }
 
-/* GET Participant by id */
-async function getAdministratorsById(rut: string,{ req, res }: Context) {
-    const { db, connection } = await createConnection()
-    const Administrators = db.collection('administrator')
-    const resp = Administrators.findOne({_id : (req.params._id)},
-    function (err, result) {
-        if (err) throw err
-        if (result) {
-            res.json(result)
-        } else {
-            res.status(204).send()
-        }
-    })
+/* GET Administrator by id */
+async function getAdministratorById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
+    const Events = db.collection('administrator')
+    const newId = new ObjectId(req.params.id)
+    const resp = Events.findOne({'_id' : newId})
+    const body = await resp
+    connection.close()
+    if (body) {
+        res.status(200).json( body)
+    } else {
+        res.status(404).send("Administraor con Id especificado no existe")
+    }
+    
 }
 
-/* PUT Update a Client */
-async function PutAdministratorById({ req, res }: Context) {
-    const { db, connection } = await createConnection()
+
+
+/* PUT Update a administrator */
+async function PutAdministratorById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
     const Administrators = db.collection('administrator')
+    const newId = new ObjectId(req.params.id)
     const resp = Administrators.findOneAndUpdate(
     { "id": (req.params.id) },
     { $set: req.body },
@@ -65,25 +69,22 @@ async function PutAdministratorById({ req, res }: Context) {
     })
 }
 
-/* DELETE delete a administrator by Id  */
-async function deleteAdministratorById({ req, res }: Context) {
-    const { db, connection } = await createConnection()
+/* DELETE a administrator by Id  */
+async function DeleteAdministratorById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
     const Administrators = db.collection('administrator')
-    const resp = Administrators.deleteOne(
-        {"id": (req.params.id)},
-        function (err, result) {
-            if (err) {
-                res.status(500).send("Error intentando eliminar el usuario")
-            } else {
-                if (result.deletedCount == 0) {
-                    res.status(404).send("Usuario no existe")
-                } else {
-                    res.status(202).json({ "id": req.params.id })
-                }
-            }
-        })
+    const newId = new ObjectId(req.params.id)
+    const resp = Administrators.deleteOne({'_id' : newId})
+    const body = await resp
+    connection.close()
+    if (body) {
+        res.status(200).json( body)
+    } else {
+        res.status(404).send("Administraor con Id especificado no existe")
+    }
+    
 }
 
 
 
-export default { CreateAdministrator, getAdministrators, getAdministratorsById, PutAdministratorById, deleteAdministratorById};
+export default { CreateAdministrator, getAdministrators, getAdministratorById, PutAdministratorById, DeleteAdministratorById};

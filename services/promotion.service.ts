@@ -5,7 +5,7 @@ import { createConnection } from '../shared/mongo'
 // This was async function getParticipants(req: Request, res: Response) {
 // 👇
 
-/* POST Create a new event */
+/* POST Create a new promotion */
 async function CreatePromotion ({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Promotions = db.collection('promotion')
@@ -21,7 +21,7 @@ async function CreatePromotion ({ req, res }: Context) {
 }
 
 
-/* GET Administrators */
+/* GET promotions */
 async function GetPromotions ({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Promotions = db.collection('promotion')
@@ -32,25 +32,27 @@ async function GetPromotions ({ req, res }: Context) {
 
 }
 
-/* GET Participant by id */
-async function GetPromotionById (rut: string,{ req, res }: Context) {
-    const { db, connection } = await createConnection()
+/* GET Promotion by id */
+async function getPromotionsById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
     const Promotions = db.collection('promotion')
-    const resp = Promotions.findOne({_id : (req.params._id)},
-    function (err, result) {
-        if (err) throw err
-        if (result) {
-            res.json(result)
-        } else {
-            res.status(204).send()
-        }
-    })
+    const newId = new ObjectId(req.params.id)
+    const resp = Promotions.findOne({'_id' : newId})
+    const body = await resp
+    connection.close()
+    if (body) {
+        res.status(200).json( body)
+    } else {
+        res.status(404).send("Participant con Id especificado no existe")
+    }
+    
 }
 
-/* PUT Update a Client */
-async function PutPromotionById({ req, res }: Context) {
-    const { db, connection } = await createConnection()
+/* PUT Update a promotion */
+async function PutPromotionById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
     const Promotions = db.collection('promotion')
+    const newId = new ObjectId(req.params.id)
     const resp = Promotions.findOneAndUpdate(
     { "id": (req.params.id) },
     { $set: req.body },
@@ -68,23 +70,20 @@ async function PutPromotionById({ req, res }: Context) {
     })
 }
 
-/* DELETE delete a administrator by Id  */
-async function DeletePromotionById({ req, res }: Context) {
-    const { db, connection } = await createConnection()
+/* DELETE a promotion by Id  */
+async function DeletePromotionById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
     const Promotions = db.collection('promotion')
-    const resp = Promotions.deleteOne(
-        {"id": (req.params.id)},
-        function (err, result) {
-            if (err) {
-                res.status(500).send("Error intentando eliminar el usuario")
-            } else {
-                if (result.deletedCount == 0) {
-                    res.status(404).send("Usuario no existe")
-                } else {
-                    res.status(202).json({ "id": req.params.id })
-                }
-            }
-        })
+    const newId = new ObjectId(req.params.id)
+    const resp = Promotions.deleteOne({'_id' : newId})
+    const body = await resp
+    connection.close()
+    if (body) {
+        res.status(200).json( body)
+    } else {
+        res.status(404).send("Promotion con Id especificado no existe")
+    }
+    
 }
 
-export default { CreatePromotion, GetPromotions, GetPromotionById, PutPromotionById, DeletePromotionById };
+export default { CreatePromotion, GetPromotions, getPromotionsById, PutPromotionById, DeletePromotionById };

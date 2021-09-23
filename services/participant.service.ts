@@ -58,17 +58,22 @@ async function getParticipantByRut(rut: string,{ req, res }: Context) {
 }
 
 /* GET Participant by id */
-async function getParticipantById({ req, res }: Context) {
-    const { db, connection } = await createConnection()
-    const Participants = db.collection('participant')
-    const resp = Participants.findOne({"_id" : ObjectId(req.params.id)})
+async function getParticipantById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
+    const Events = db.collection('participant')
+    const newId = new ObjectId(req.params.id)
+    const resp = Events.findOne({'_id' : newId})
     const body = await resp
     connection.close()
-    res.status(200).json( body)
-
+    if (body) {
+        res.status(200).json( body)
+    } else {
+        res.status(404).send("Participant con Id especificado no existe")
+    }
+    
 }
 
-/* GET get-organization/:start/:total Ler organizações com filtros e ordem alfabética */
+/* GET getParticipantStartTotal Ler organizações com filtros e ordem alfabética */
 async function getParticipantStartTotal({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Participants = db.collection('participant')
@@ -92,27 +97,26 @@ async function getParticipantStartTotal({ req, res }: Context) {
     res.status(200).json( body)
 }
 
-/* PUT Update a Client */
-async function PutParticipantByRut({ req, res }: Context) {
-    const { db, connection } = await createConnection()
-    const Participants = db.collection('participant')
-    const resp = Participants.findOneAndUpdate(
-        { "rut": (req.params.rut) },
-        { $set: req.body },
-
-        function (err, item) {
-            if (err) throw err
-            if (err) {
-                res.status(500).send("Error intentando actualizar el usuario")
+/* PUT Update a participant */
+async function PutParticipantById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
+    const Administrators = db.collection('participant')
+    const newId = new ObjectId(req.params.id)
+    const resp = Administrators.findOneAndUpdate(
+    { "id": (req.params.id) },
+    { $set: req.body },
+    function (err, item) {
+        if (err) throw err
+        if (err) {
+            res.status(500).send("Error intentando actualizar el usuario")
+        } else {
+            if (item.value == null) {
+                res.status(404).send("Usuario con Id especificado no existe")
             } else {
-                if (item.value == null) {
-                    res.status(404).send("Usuario con Id especificado no existe")
-                } else {
-                    res.status(202).json(item.value)
-                }
+                res.status(202).json(item.value)
             }
-        })
-
+        }
+    })
 }
 
 /* GET getParticipantWithSQuestions */
@@ -167,7 +171,7 @@ async function getParticipantsByOrderByComunitySkLm({ req, res }: Context) {
     res.status(200).json( body)
 }
 
-/* DELETE delete a participant by rut  */
+/* DELETE a participant by rut  */
 async function deleteParticipantByRut({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Participants = db.collection('participant')
@@ -186,24 +190,20 @@ async function deleteParticipantByRut({ req, res }: Context) {
         })
 }
 
-/* DELETE delete a participant by Id  */
-async function deleteParticipantById({ req, res }: Context) {
-    const { db, connection } = await createConnection()
+/* DELETE a participant by Id  */
+async function DeleteParticipantById(rut: string,{ req, res }: Context) {
+    const { db, connection, ObjectId } = await createConnection()
     const Participants = db.collection('participant')
-    const resp = Participants.deleteOne(
-        {"_id": (req.params.id)},
-        function (err, result) {
-            if (err) {
-                res.status(500).send("Error intentando eliminar el usuario")
-            } else {
-                if (result.deletedCount == 0) {
-                    res.status(404).send("Usuario no existe")
-                } else {
-                    res.status(202).json({ "rut": req.params.id })
-                }
-            }
-        })
-        
+    const newId = new ObjectId(req.params.id)
+    const resp = Participants.deleteOne({'_id' : newId})
+    const body = await resp
+    connection.close()
+    if (body) {
+        res.status(200).json( body)
+    } else {
+        res.status(404).send("Participant con Id especificado no existe")
+    }
+    
 }
 
 
@@ -225,4 +225,4 @@ async function deleteParticipant({ req, res }: Context) {
     // ...
 }
 
-export default { getParticipants, getParticipantByRut, getParticipantsWithSQuestions, getParticipantById, getParticipantsByOrderByComunitySkLm, getParticipantStartTotal, createParticipant, deleteParticipantById, deleteParticipantByRut, postParticipant, putParticipant, PutParticipantByRut, deleteParticipant };
+export default { getParticipants, getParticipantByRut, getParticipantsWithSQuestions, getParticipantById, getParticipantsByOrderByComunitySkLm, getParticipantStartTotal, createParticipant, DeleteParticipantById, deleteParticipantByRut, postParticipant, putParticipant, PutParticipantById,deleteParticipant };

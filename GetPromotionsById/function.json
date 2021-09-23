@@ -5,8 +5,8 @@
       "type": "httpTrigger",
       "direction": "in",
       "name": "req",
-      "methods": ["put"],
-      "route": "GetPromotionsById/{id}"
+      "methods": ["get"],
+      "route": "getPromotionsById/{id}"
     },
     {
       "type": "http",
@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/GetPromotionsById/index.js"
+  "scriptFile": "../dist/getPromotionsById/index.js"
 }

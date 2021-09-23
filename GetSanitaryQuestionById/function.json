@@ -6,7 +6,7 @@
       "direction": "in",
       "name": "req",
       "methods": ["get"],
-      "route": "GetSanitaryQuestionById/{id}"
+      "route": "getSanitaryQuestionById/{id}"
     },
     {
       "type": "http",
@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/GetSanitaryQuestionById/index.js"
+  "scriptFile": "../dist/getSanitaryQuestionById/index.js"
 }
