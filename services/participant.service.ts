@@ -122,26 +122,28 @@ async function GetParticipantStartTotal({ req, res }: Context) {
     res.status(200).json(body)
 }
 
-/* ☝️ PUT Update a event by ID */
-async function UpdateParticipantById(rut: string,{ req, res }: Context) {
-    const { db, connection, ObjectId } = await createConnection()
-    const Participants = db.collection('participant')
-    const newId = new ObjectId(req.params.id)
-    const resp = Participants.findOneAndUpdate(
-    { "id": (req.params.id) },
-    { $set: req.body },
-    function (err, item) {
-        if (err) throw err
-        if (err) {
-            res.status(500).send("Error intentando actualizar el usuario")
+/* ☝️ PUT Update a participant by ID */
+async function UpdateParticipantById(rut: string, { req, res }: Context) {
+    const { db, connection } = await createConnection()
+    const Participant = db.collection('participant')
+    delete req.body._id
+    const resp = Participant.findOneAndUpdate(
+        { "id": rut },
+        { $set: req.body })
+    var body = null
+    try {
+        body = await resp
+        connection.close()
+        if (body.value == null) {
+            res.status(400).json(body)
         } else {
-            if (item.value == null) {
-                res.status(404).send("Usuario con Id especificado no existe")
-            } else {
-                res.status(202).json(item.value)
-            }
+            res.status(201).json(body)
         }
-    })
+
+    } catch (error) {
+        connection.close()
+        res.status(500).json(error)
+    }
 }
 
 /* ☝️ PUT Update a participant by RUT */
