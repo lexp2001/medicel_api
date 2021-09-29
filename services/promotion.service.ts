@@ -5,19 +5,20 @@ import { createConnection } from '../shared/mongo'
 // This was async function getParticipants(req: Request, res: Response) {
 // 👇
 
-/* POST Create a new promotion */
-async function CreatePromotion ({ req, res }: Context) {
+/* ☝️  POST Create a new promotion */
+async function CreatePromotion({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Promotions = db.collection('promotion')
-    const resp = Promotions.insertOne(req.body, function (err, result) {
-        if (err) {
-            res.status(500).send("Erro ao criar o client")
-        } else {
-            res.status(201)
-            res.json(result)
-        }
-    })
-
+    const resp = Promotions.insertOne(req.body)
+    var body = null
+    try {
+        body = await resp
+        connection.close()
+        res.status(201).json(body)
+    } catch (error) {
+        connection.close()
+        res.status(500).json(error)
+    }
 }
 
 

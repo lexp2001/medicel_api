@@ -5,19 +5,20 @@ import { createConnection } from '../shared/mongo'
 // This was async function getParticipants(req: Request, res: Response) {
 // 👇
 
-/* POST Create a new planner */
-async function createPlanner ({ req, res }: Context) {
+/* ☝️  POST Create a new event */
+async function createPlanner({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Planners = db.collection('planner')
-    const resp = Planners.insertOne(req.body, function (err, result) {
-        if (err) {
-            res.status(500).send("Erro ao criar o client")
-        } else {
-            res.status(201)
-            res.json(result)
-        }
-    })
-
+    const resp = Planners.insertOne(req.body)
+    var body = null
+    try {
+        body = await resp
+        connection.close()
+        res.status(201).json(body)
+    } catch (error) {
+        connection.close()
+        res.status(500).json(error)
+    }
 }
 
 

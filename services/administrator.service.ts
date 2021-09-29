@@ -2,19 +2,20 @@ import { Context } from '@azure/functions'
 import { createConnection } from '../shared/mongo'
 
 
-/* POST Create a new administrator */
-async function CreateAdministrator ({ req, res }: Context) {
+/* ☝️  POST Create a new administrator */
+async function CreateAdministrator({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Administrators = db.collection('administrator')
-    const resp = Administrators.insertOne(req.body, function (err, result) {
-        if (err) {
-            res.status(500).send("Erro ao criar o client")
-        } else {
-            res.status(201)
-            res.json(result)
-        }
-    })
-
+    const resp = Administrators.insertOne(req.body)
+    var body = null
+    try {
+        body = await resp
+        connection.close()
+        res.status(201).json(body)
+    } catch (error) {
+        connection.close()
+        res.status(500).json(error)
+    }
 }
 
 
