@@ -34,7 +34,7 @@ async function GetPromotions ({ req, res }: Context) {
 }
 
 /* GET Promotion by id */
-async function getPromotionsById(rut: string,{ req, res }: Context) {
+async function GetPromotionsById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Promotions = db.collection('promotion')
     const newId = new ObjectId(req.params.id)
@@ -50,7 +50,7 @@ async function getPromotionsById(rut: string,{ req, res }: Context) {
 }
 
 /* ☝️ PUT Update a promotion */
-async function PutPromotionById(rut: string,{ req, res }: Context) {
+async function UpdatePromotionById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Promotions = db.collection('promotion')
     const newId = new ObjectId(req.params.id)
@@ -87,4 +87,4 @@ async function DeletePromotionById(rut: string,{ req, res }: Context) {
     
 }
 
-export default { CreatePromotion, GetPromotions, getPromotionsById, PutPromotionById, DeletePromotionById };
+export default { CreatePromotion, GetPromotions, GetPromotionsById, UpdatePromotionById, DeletePromotionById };

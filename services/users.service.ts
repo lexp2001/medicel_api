@@ -34,7 +34,7 @@ async function GetUsers({ req, res }: Context) {
 }
 
 /* GET users by id */
-async function getUsersById(rut: string,{ req, res }: Context) {
+async function GetUsersById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Events = db.collection('users')
     const newId = new ObjectId(req.params.id)
@@ -50,7 +50,7 @@ async function getUsersById(rut: string,{ req, res }: Context) {
 }
 
 /* ☝️ PUT Update a user */
-async function PutUserById(rut: string,{ req, res }: Context) {
+async function UpdateUserById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const users = db.collection('users')
     const newId = new ObjectId(req.params.id)
@@ -87,4 +87,4 @@ async function DeleteUserById(rut: string,{ req, res }: Context) {
     
 }
 
-export default { CreateUser, GetUsers, getUsersById, PutUserById, DeleteUserById};
+export default { CreateUser, GetUsers, GetUsersById, UpdateUserById, DeleteUserById};

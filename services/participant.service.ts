@@ -8,7 +8,7 @@ var ObjectId = require('mongodb').ObjectId;
 
 
 /* 👍 POST Create a new participant */
-async function createParticipant({ req, res }: Context) {
+async function CreateParticipant({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Participants = db.collection('participant')
     const resp = Participants.insertOne(req.body)
@@ -25,7 +25,7 @@ async function createParticipant({ req, res }: Context) {
 
 
 /* 👍 GET Participants */
-async function getParticipants({ req, res }: Context) {
+async function GetParticipants({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Participants = db.collection('participant')
     const resp = Participants.find({})
@@ -35,7 +35,7 @@ async function getParticipants({ req, res }: Context) {
 }
 
 /* 👍 GET Participant by Rut */
-async function getParticipantByRut(rut: string, { req, res }: Context) {
+async function GetParticipantByRut(rut: string, { req, res }: Context) {
     const { db, connection } = await createConnection()
     const Participants = db.collection('participant')
     const resp = Participants.aggregate([{
@@ -57,7 +57,7 @@ async function getParticipantByRut(rut: string, { req, res }: Context) {
 }
 
 /* 👍 GET Participant by email */
-async function getParticipantByEmail(email: string, { req, res }: Context) {
+async function GetParticipantByEmail(email: string, { req, res }: Context) {
     const { db, connection } = await createConnection()
     const Participants = db.collection('participant')
     const resp = Participants.aggregate([{
@@ -83,7 +83,7 @@ async function getParticipantByEmail(email: string, { req, res }: Context) {
 }
 
 /* GET Participant by id */
-async function getParticipantById(rut: string, { req, res }: Context) {
+async function GetParticipantById(rut: string, { req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Events = db.collection('participant')
     const newId = new ObjectId(req.params.id)
@@ -99,7 +99,7 @@ async function getParticipantById(rut: string, { req, res }: Context) {
 }
 
 /* GET getParticipantStartTotal Ler organizações com filtros e ordem alfabética */
-async function getParticipantStartTotal({ req, res }: Context) {
+async function GetParticipantStartTotal({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Participants = db.collection('participant')
     const resp = Participants.aggregate([{
@@ -123,7 +123,7 @@ async function getParticipantStartTotal({ req, res }: Context) {
 }
 
 /* ☝️ PUT Update a participant */
-async function updateParticipantByRut(rut: string, { req, res }: Context) {
+async function UpdateParticipantByRut(rut: string, { req, res }: Context) {
     const { db, connection } = await createConnection()
     const Participant = db.collection('participant')
     delete req.body._id
@@ -147,7 +147,7 @@ async function updateParticipantByRut(rut: string, { req, res }: Context) {
 }
 
 /* GET getParticipantWithSQuestions */
-async function getParticipantsWithSQuestions(rut: string, { req, res }: Context) {
+async function GetParticipantsWithSQuestions(rut: string, { req, res }: Context) {
     const { db, connection } = await createConnection()
     const Participants = db.collection('participant')
     const resp = Participants.aggregate([{
@@ -165,7 +165,7 @@ async function getParticipantsWithSQuestions(rut: string, { req, res }: Context)
 }
 
 /* GET get-participant-with-s-questions/:orderBy/:byComunity/:sk/:lm */
-async function getParticipantsByOrderByComunitySkLm({ req, res }: Context) {
+async function GetParticipantsByOrderByComunitySkLm({ req, res }: Context) {
     var order = req.params.ByOrder
     var comun = req.params.ByComunity
     const { db, connection } = await createConnection()
@@ -199,7 +199,7 @@ async function getParticipantsByOrderByComunitySkLm({ req, res }: Context) {
 }
 
 /* DELETE a participant by rut  */
-async function deleteParticipantByRut({ req, res }: Context) {
+async function DeleteParticipantByRut({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Participants = db.collection('participant')
     const resp = Participants.deleteOne(
@@ -234,15 +234,15 @@ async function DeleteParticipantById(rut: string, { req, res }: Context) {
 }
 
 export default {
-    getParticipants,
-    getParticipantByRut,
-    getParticipantsWithSQuestions,
-    getParticipantById,
-    getParticipantsByOrderByComunitySkLm,
-    getParticipantStartTotal,
-    createParticipant,
+    GetParticipants,
+    GetParticipantByRut,
+    GetParticipantsWithSQuestions,
+    GetParticipantById,
+    GetParticipantsByOrderByComunitySkLm,
+    GetParticipantStartTotal,
+    CreateParticipant,
     DeleteParticipantById,
-    deleteParticipantByRut,
-    updateParticipantByRut,
-    getParticipantByEmail
+    DeleteParticipantByRut,
+    UpdateParticipantByRut,
+    GetParticipantByEmail
 };

@@ -6,7 +6,7 @@ import { createConnection } from '../shared/mongo'
 // 👇
 
 /* ☝️  POST Create a new event */
-async function createEvent({ req, res }: Context) {
+async function CreateEvent({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Events = db.collection('event')
     const resp = Events.insertOne(req.body)
@@ -22,7 +22,7 @@ async function createEvent({ req, res }: Context) {
 }
 
 /* GET events */
-async function getEvents({ req, res }: Context) {
+async function GetEvents({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Events = db.collection('event')
     const resp = Events.find({})
@@ -33,7 +33,7 @@ async function getEvents({ req, res }: Context) {
 }
 
 /* GET Event by id */
-async function getEventsById(rut: string,{ req, res }: Context) {
+async function GetEventsById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Events = db.collection('event')
     const newId = new ObjectId(req.params.id)
@@ -50,7 +50,7 @@ async function getEventsById(rut: string,{ req, res }: Context) {
 
 
 /* ☝️ PUT Update a event */
-async function PutEventById(rut: string,{ req, res }: Context) {
+async function UpdateEventById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Administrators = db.collection('event')
     const newId = new ObjectId(req.params.id)
@@ -90,4 +90,4 @@ async function DeleteEventById(rut: string,{ req, res }: Context) {
 
 
 
-export default { createEvent, getEvents, getEventsById, PutEventById, DeleteEventById};
+export default { CreateEvent, GetEvents, GetEventsById, UpdateEventById, DeleteEventById};

@@ -6,7 +6,7 @@
       "direction": "in",
       "name": "req",
       "methods": ["get"],
-      "route": "getParticipantStartTotal/{start}/{total}"
+      "route": "GetParticipantStartTotal/{start}/{total}"
     },
     {
       "type": "http",
@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/getParticipantStartTotal/index.js"
+  "scriptFile": "../dist/GetParticipantStartTotal/index.js"
 }

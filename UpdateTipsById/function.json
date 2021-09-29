@@ -6,7 +6,7 @@
       "direction": "in",
       "name": "req",
       "methods": ["put"],
-      "route": "PutSanitaryQuestionById/{_id}"
+      "route": "UpdateTipsById/{_id}"
     },
     {
       "type": "http",
@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/PutEventById/index.js"
+  "scriptFile": "../dist/UpdateTipsById/index.js"
 }

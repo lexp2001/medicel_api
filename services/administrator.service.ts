@@ -20,7 +20,7 @@ async function CreateAdministrator({ req, res }: Context) {
 
 
 /* GET Administrators */
-async function getAdministrators({ req, res }: Context) {
+async function GetAdministrators({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Administrators = db.collection('administrator')
     const resp = Administrators.find({})
@@ -31,7 +31,7 @@ async function getAdministrators({ req, res }: Context) {
 }
 
 /* GET Administrator by id */
-async function getAdministratorById(rut: string,{ req, res }: Context) {
+async function GetAdministratorById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Events = db.collection('administrator')
     const newId = new ObjectId(req.params.id)
@@ -49,7 +49,7 @@ async function getAdministratorById(rut: string,{ req, res }: Context) {
 
 
 /* ☝️ PUT Update a administrator */
-async function PutAdministratorById(rut: string,{ req, res }: Context) {
+async function UpdateAdministratorById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Administrators = db.collection('administrator')
     const newId = new ObjectId(req.params.id)
@@ -88,4 +88,4 @@ async function DeleteAdministratorById(rut: string,{ req, res }: Context) {
 
 
 
-export default { CreateAdministrator, getAdministrators, getAdministratorById, PutAdministratorById, DeleteAdministratorById};
+export default { CreateAdministrator, GetAdministrators, GetAdministratorById, UpdateAdministratorById, DeleteAdministratorById};

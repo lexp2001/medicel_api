@@ -34,7 +34,7 @@ async function GetTips({ req, res }: Context) {
 }
 
 /* GET tip by id */
-async function getTipsById(rut: string,{ req, res }: Context) {
+async function GetTipsById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Tips = db.collection('tips')
     const newId = new ObjectId(req.params.id)
@@ -50,7 +50,7 @@ async function getTipsById(rut: string,{ req, res }: Context) {
 }
 
 /* ☝️ PUT Update a tip */
-async function PutTipsById(rut: string,{ req, res }: Context) {
+async function UpdateTipsById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Tips = db.collection('tips')
     const newId = new ObjectId(req.params.id)
@@ -87,4 +87,4 @@ async function DeleteTipsById(rut: string,{ req, res }: Context) {
     
 }
 
-export default { CreateTips, GetTips, getTipsById, PutTipsById, DeleteTipsById};
+export default { CreateTips, GetTips, GetTipsById, UpdateTipsById, DeleteTipsById};

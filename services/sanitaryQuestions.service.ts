@@ -34,7 +34,7 @@ async function GetSanitaryQuestions ({ req, res }: Context) {
 }
 
 /* GET sanitaryQuestions by id */
-async function getSanitaryQuestionById(rut: string,{ req, res }: Context) {
+async function GetSanitaryQuestionById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const sanitaryQuestions = db.collection('sanitaryQuestions')
     const newId = new ObjectId(req.params.id)
@@ -50,7 +50,7 @@ async function getSanitaryQuestionById(rut: string,{ req, res }: Context) {
 }
 
 /* ☝️ PUT Update a sanitaryQuestions */
-async function PutSanitaryQuestionById(rut: string,{ req, res }: Context) {
+async function UpdateSanitaryQuestionById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const sanitaryQuestions = db.collection('sanitaryQuestions')
     const newId = new ObjectId(req.params.id)
@@ -87,4 +87,4 @@ async function DeleteSanitaryQuestionById(rut: string,{ req, res }: Context) {
     
 }
 
-export default { CreateSanitaryQuestion, GetSanitaryQuestions, getSanitaryQuestionById, PutSanitaryQuestionById,  DeleteSanitaryQuestionById};
+export default { CreateSanitaryQuestion, GetSanitaryQuestions, GetSanitaryQuestionById, UpdateSanitaryQuestionById,  DeleteSanitaryQuestionById};

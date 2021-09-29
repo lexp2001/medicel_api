@@ -6,7 +6,7 @@ import { createConnection } from '../shared/mongo'
 // 👇
 
 /* ☝️  POST Create a new event */
-async function createPlanner({ req, res }: Context) {
+async function CreatePlanner({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Planners = db.collection('planner')
     const resp = Planners.insertOne(req.body)
@@ -23,7 +23,7 @@ async function createPlanner({ req, res }: Context) {
 
 
 /* GET planners */
-async function getPlanners({ req, res }: Context) {
+async function GetPlanners({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Planners = db.collection('planner')
     const resp = Planners.find({})
@@ -50,7 +50,7 @@ async function GetPlannerById(rut: string,{ req, res }: Context) {
 }
 
 /* ☝️ PUT Update a planner */
-async function PutPlannerById(rut: string,{ req, res }: Context) {
+async function UpdatePlannerById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Planners = db.collection('planner')
     const newId = new ObjectId(req.params.id)
@@ -88,4 +88,4 @@ async function DeletePlannerById(rut: string,{ req, res }: Context) {
 }
 
 
-export default { createPlanner, getPlanners, GetPlannerById, PutPlannerById, DeletePlannerById};
+export default { CreatePlanner, GetPlanners, GetPlannerById, UpdatePlannerById, DeletePlannerById};

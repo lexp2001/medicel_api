@@ -6,7 +6,7 @@
       "direction": "in",
       "name": "req",
       "methods": ["put"],
-      "route": "PutTipsById/{_id}"
+      "route": "UpdatePlannerById/{_id}"
     },
     {
       "type": "http",
@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/PutTipsById/index.js"
+  "scriptFile": "../dist/UpdatePlannerById/index.js"
 }
