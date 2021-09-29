@@ -49,7 +49,7 @@ async function getSanitaryQuestionById(rut: string,{ req, res }: Context) {
     
 }
 
-/* PUT Update a sanitaryQuestions */
+/* ☝️ PUT Update a sanitaryQuestions */
 async function PutSanitaryQuestionById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const sanitaryQuestions = db.collection('sanitaryQuestions')

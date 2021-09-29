@@ -49,7 +49,7 @@ async function GetPlannerById(rut: string,{ req, res }: Context) {
     
 }
 
-/* PUT Update a planner */
+/* ☝️ PUT Update a planner */
 async function PutPlannerById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Planners = db.collection('planner')

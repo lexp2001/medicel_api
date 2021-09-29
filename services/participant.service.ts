@@ -122,7 +122,7 @@ async function getParticipantStartTotal({ req, res }: Context) {
     res.status(200).json(body)
 }
 
-/* PUT Update a participant */
+/* ☝️ PUT Update a participant */
 async function updateParticipantByRut(rut: string, { req, res }: Context) {
     const { db, connection } = await createConnection()
     const Participant = db.collection('participant')

@@ -49,7 +49,7 @@ async function getPromotionsById(rut: string,{ req, res }: Context) {
     
 }
 
-/* PUT Update a promotion */
+/* ☝️ PUT Update a promotion */
 async function PutPromotionById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Promotions = db.collection('promotion')

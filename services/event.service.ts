@@ -49,7 +49,7 @@ async function getEventsById(rut: string,{ req, res }: Context) {
 }
 
 
-/* PUT Update a event */
+/* ☝️ PUT Update a event */
 async function PutEventById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Administrators = db.collection('event')

@@ -49,7 +49,7 @@ async function getTipsById(rut: string,{ req, res }: Context) {
     
 }
 
-/* PUT Update a tip */
+/* ☝️ PUT Update a tip */
 async function PutTipsById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Tips = db.collection('tips')

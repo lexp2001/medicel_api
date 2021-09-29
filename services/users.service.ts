@@ -49,7 +49,7 @@ async function getUsersById(rut: string,{ req, res }: Context) {
     
 }
 
-/* PUT Update a user */
+/* ☝️ PUT Update a user */
 async function PutUserById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const users = db.collection('users')

@@ -48,7 +48,7 @@ async function getAdministratorById(rut: string,{ req, res }: Context) {
 
 
 
-/* PUT Update a administrator */
+/* ☝️ PUT Update a administrator */
 async function PutAdministratorById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Administrators = db.collection('administrator')
