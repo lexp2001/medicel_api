@@ -6,7 +6,7 @@
       "direction": "in",
       "name": "req",
       "methods": ["put"],
-      "route": "UpdateParticipantById/{_id}"
+      "route": "UpdateParticipantByIdi/{_id}"
     },
     {
       "type": "http",
@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/UpdateParticipantById/index.js"
+  "scriptFile": "../dist/UpdateParticipantByIdi/index.js"
 }
