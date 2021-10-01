@@ -128,7 +128,7 @@ async function UpdateParticipantById(rut: string,{ req, res }: Context) {
     const Participants = db.collection('participant')
     const newId = new ObjectId(req.params.id)
     const resp = Participants.findOneAndUpdate(
-    { "id": (req.params.id) },
+    { "_id": (newId) },
     { $set: req.body },
     function (err, item) {
         if (err) throw err
