@@ -122,13 +122,13 @@ async function GetParticipantStartTotal({ req, res }: Context) {
     res.status(200).json(body)
 }
 
-/* ☝️ PUT Update a planner */
+/* ☝️ PUT Update a participant */
 async function UpdateParticipantById(rut: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Participants = db.collection('participant')
     const newId = new ObjectId(req.params.id)
     const resp = Participants.findOneAndUpdate(
-    { "_id": (newId) },
+    { "_id": (req.params.id) },
     { $set: req.body },
     function (err, item) {
         if (err) throw err
