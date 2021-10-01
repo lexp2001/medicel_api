@@ -123,7 +123,7 @@ async function GetParticipantStartTotal({ req, res }: Context) {
 }
 
 /* ☝️ PUT Update a participant */
-async function UpdateParticipantByIdi(rut: string,{ req, res }: Context) {
+async function UpdateParticipantById(_id: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Participants = db.collection('participant')
     const newId = new ObjectId(req.params.id)
@@ -266,6 +266,6 @@ export default {
     DeleteParticipantById,
     DeleteParticipantByRut,
     UpdateParticipantByRut,
-    UpdateParticipantByIdi,
+    UpdateParticipantById,
     GetParticipantByEmail
 };
