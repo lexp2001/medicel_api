@@ -128,7 +128,7 @@ async function UpdateParticipantById(_id: string,{ req, res }: Context) {
     const Participants = db.collection('participant')
     const newId = new ObjectId(req.params._id)
     const resp = Participants.findOneAndUpdate(
-    { "_id": (req.params._id) },
+    { "id": (newId) },
     { $set: req.body },
     function (err, item) {
         if (err) throw err
