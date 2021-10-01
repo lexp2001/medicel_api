@@ -125,9 +125,9 @@ async function GetParticipantStartTotal({ req, res }: Context) {
 /* ☝️ PUT Update a participant by ID */
 async function UpdateParticipantById(_id: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
-    const Participants = db.collection('participant')
+    const Participant = db.collection('participant')
     const newId = new ObjectId(req.params.id)
-    const resp = Participants.findOneAndUpdate(
+    const resp = Participant.findOneAndUpdate(
     { "id": (newId) },
     { $set: req.body },
     function (err, item) {
