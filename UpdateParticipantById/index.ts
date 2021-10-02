@@ -2,7 +2,7 @@ import { AzureFunction, Context, HttpRequest } from '@azure/functions';
 import { participantService } from '../services';
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
-  await participantService.UpdateParticipantById; // 👈 This calls the participant service
+  await participantService.UpdateParticipantById(req.params.id,context); // 👈 This calls the participant service
 };
 
 export default httpTrigger;
