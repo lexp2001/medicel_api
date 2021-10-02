@@ -6,7 +6,7 @@
       "direction": "in",
       "name": "req",
       "methods": ["put"],
-      "route": "UpdateEventById/{_id}"
+      "route": "UpdateEventById/{id}"
     },
     {
       "type": "http",

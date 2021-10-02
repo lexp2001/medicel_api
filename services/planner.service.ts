@@ -49,26 +49,19 @@ async function GetPlannerById(rut: string,{ req, res }: Context) {
     
 }
 
-/* ☝️ PUT Update a planner */
-async function UpdatePlannerById(rut: string,{ req, res }: Context) {
+/* ☝️ PUT Update a planner by ID*/
+async function UpdatePlannerById(id: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Planners = db.collection('planner')
-    const newId = new ObjectId(req.params.id)
-    const resp = Planners.findOneAndUpdate(
-    { "id": (req.params.id) },
-    { $set: req.body },
-    function (err, item) {
-        if (err) throw err
-        if (err) {
-            res.status(500).send("Error intentando actualizar el usuario")
-        } else {
-            if (item.value == null) {
-                res.status(404).send("Usuario con Id especificado no existe")
-            } else {
-                res.status(202).json(item.value)
-            }
-        }
-    })
+    const newId = new ObjectId(id)
+    const resp = Planners.findOneAndUpdate({'_id': newId }, {$set: req.body})
+    const body = await resp
+    connection.close()
+    if (body) {
+        res.status(200).json(body)
+    } else {
+        res.status(404).send("Planner con Id especificado no existe")
+    }
 }
 
 /* DELETE a planner by Id  */

@@ -49,26 +49,19 @@ async function GetSanitaryQuestionById(rut: string,{ req, res }: Context) {
     
 }
 
-/* ☝️ PUT Update a sanitaryQuestions */
-async function UpdateSanitaryQuestionById(rut: string,{ req, res }: Context) {
+/* ☝️ PUT Update a sanitaryQuestions by ID*/
+async function UpdateSanitaryQuestionById(id: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
-    const sanitaryQuestions = db.collection('sanitaryQuestions')
-    const newId = new ObjectId(req.params.id)
-    const resp = sanitaryQuestions.findOneAndUpdate(
-    { "id": (req.params.id) },
-    { $set: req.body },
-    function (err, item) {
-        if (err) throw err
-        if (err) {
-            res.status(500).send("Error intentando actualizar el usuario")
-        } else {
-            if (item.value == null) {
-                res.status(404).send("Usuario con Id especificado no existe")
-            } else {
-                res.status(202).json(item.value)
-            }
-        }
-    })
+    const SanitaryQuestions = db.collection('sanitaryQuestions')
+    const newId = new ObjectId(id)
+    const resp = SanitaryQuestions.findOneAndUpdate({'_id': newId }, {$set: req.body})
+    const body = await resp
+    connection.close()
+    if (body) {
+        res.status(200).json(body)
+    } else {
+        res.status(404).send("sanitaryQuestion con Id especificado no existe")
+    }
 }
 
 /* DELETE a sanitaryQuestions by Id  */
