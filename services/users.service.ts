@@ -65,7 +65,7 @@ async function UpdateUserById(id: string,{ req, res }: Context) {
 }
 
 /* DELETE a user by Id  */
-async function DeleteUserById(rut: string,{ req, res }: Context) {
+async function DeleteUserById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Users = db.collection('users')
     const newId = new ObjectId(req.params.id)

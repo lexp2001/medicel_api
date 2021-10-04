@@ -65,7 +65,7 @@ async function UpdateTipsById(id: string,{ req, res }: Context) {
 }
 
 /* DELETE a tip by Id  */
-async function DeleteTipsById(rut: string,{ req, res }: Context) {
+async function DeleteTipsById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Tips = db.collection('tips')
     const newId = new ObjectId(req.params.id)

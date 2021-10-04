@@ -65,7 +65,7 @@ async function UpdatePromotionById(id: string,{ req, res }: Context) {
 }
 
 /* DELETE a promotion by Id  */
-async function DeletePromotionById(rut: string,{ req, res }: Context) {
+async function DeletePromotionById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Promotions = db.collection('promotion')
     const newId = new ObjectId(req.params.id)

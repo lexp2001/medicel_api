@@ -65,7 +65,8 @@ async function UpdateEventById(id: string,{ req, res }: Context) {
 }
 
 /* DELETE a event by Id  */
-async function DeleteEventById(rut: string,{ req, res }: Context) {
+async function DeleteEventById({ req, res }: Context) {
+    const id = req.params.id
     const { db, connection, ObjectId } = await createConnection()
     const Events = db.collection('event')
     const newId = new ObjectId(req.params.id)

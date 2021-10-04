@@ -1,8 +1,8 @@
-import { AzureFunction, Context, HttpRequest } from '@azure/functions';
+import { AzureFunction, Context, } from '@azure/functions';
 import { participantService } from '../services';
 
-const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
-  await participantService.GetParticipantByRut(req.params.rut,context); // 👈 This calls the participant service
+const httpTrigger: AzureFunction = async function (context: Context): Promise<void> {
+  await participantService.GetParticipantByRut(context); // 👈 This calls the participant service
 };
 
 export default httpTrigger;

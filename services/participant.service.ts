@@ -35,7 +35,8 @@ async function GetParticipants({ req, res }: Context) {
 }
 
 /* 👍 GET Participant by Rut */
-async function GetParticipantByRut(rut: string, { req, res }: Context) {
+async function GetParticipantByRut({ req, res }: Context) {
+    const rut = req.params.rut
     const { db, connection } = await createConnection()
     const Participants = db.collection('participant')
     const resp = Participants.aggregate([{
@@ -205,11 +206,11 @@ async function GetParticipantsByOrderByComunitySkLm({ req, res }: Context) {
 }
 
 /* DELETE a participant by rut  */
-async function DeleteParticipantByRut(rut: string, { req, res }: Context) {
+async function DeleteParticipantByRut({ req, res }: Context) {
+    const newRut = req.params.rut
     const { db, connection, ObjectId } = await createConnection()
     const Participants = db.collection('participant')
-    const newRut = new ObjectId(req.params.rut)
-    const resp = Participants.deleteOne({ 'Rut': newRut })
+    const resp = Participants.deleteOne({ 'rut': newRut })
     const body = await resp
     connection.close()
     if (body) {
@@ -220,20 +221,20 @@ async function DeleteParticipantByRut(rut: string, { req, res }: Context) {
 
 }
 
-/* DELETE a participant by Id  */
-async function DeleteParticipantById(rut: string, { req, res }: Context) {
+/* DELETE a administrator by Id  */
+async function DeleteParticipantById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Participants = db.collection('participant')
     const newId = new ObjectId(req.params.id)
-    const resp = Participants.deleteOne({ '_id': newId })
+    const resp = Participants.deleteOne({'_id' : newId})
     const body = await resp
     connection.close()
     if (body) {
-        res.status(200).json(body)
+        res.status(200).json( body)
     } else {
-        res.status(404).send("Participant con Id especificado no existe")
+        res.status(404).send("Administraor con Id especificado no existe")
     }
-
+    
 }
 
 export default {

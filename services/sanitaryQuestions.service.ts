@@ -65,7 +65,7 @@ async function UpdateSanitaryQuestionById(id: string,{ req, res }: Context) {
 }
 
 /* DELETE a sanitaryQuestions by Id  */
-async function DeleteSanitaryQuestionById(rut: string,{ req, res }: Context) {
+async function DeleteSanitaryQuestionById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const sanitaryQuestions = db.collection('sanitaryQuestions')
     const newId = new ObjectId(req.params.id)

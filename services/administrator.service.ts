@@ -64,7 +64,7 @@ async function UpdateAdministratorById(id: string,{ req, res }: Context) {
 }
 
 /* DELETE a administrator by Id  */
-async function DeleteAdministratorById(rut: string,{ req, res }: Context) {
+async function DeleteAdministratorById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Administrators = db.collection('administrator')
     const newId = new ObjectId(req.params.id)

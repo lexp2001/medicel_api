@@ -6,7 +6,7 @@
       "direction": "in",
       "name": "req",
       "methods": ["delete"],
-      "route": "DeleteAdministratorById/{_id}"
+      "route": "DeleteAdministratorById/{id}"
     },
     {
       "type": "http",

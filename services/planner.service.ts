@@ -65,7 +65,7 @@ async function UpdatePlannerById(id: string,{ req, res }: Context) {
 }
 
 /* DELETE a planner by Id  */
-async function DeletePlannerById(rut: string,{ req, res }: Context) {
+async function DeletePlannerById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Planners = db.collection('planner')
     const newId = new ObjectId(req.params.id)
