@@ -31,7 +31,7 @@ async function GetAdministrators({ req, res }: Context) {
 }
 
 /* GET Administrator by id */
-async function GetAdministratorById(rut: string,{ req, res }: Context) {
+async function GetAdministratorById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Events = db.collection('administrator')
     const newId = new ObjectId(req.params.id)
@@ -48,11 +48,11 @@ async function GetAdministratorById(rut: string,{ req, res }: Context) {
 
 
 
-/* ☝️ PUT Update a participant by ID*/
-async function UpdateAdministratorById(id: string,{ req, res }: Context) {
+/* ☝️ PUT Update a administrator by ID*/
+async function UpdateAdministratorById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Administrators = db.collection('administrator')
-    const newId = new ObjectId(id)
+    const newId = new ObjectId(req.params.id)
     const resp = Administrators.findOneAndUpdate({'_id': newId }, {$set: req.body})
     const body = await resp
     connection.close()

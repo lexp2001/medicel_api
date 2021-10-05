@@ -34,7 +34,7 @@ async function GetTips({ req, res }: Context) {
 }
 
 /* GET tip by id */
-async function GetTipsById(rut: string,{ req, res }: Context) {
+async function GetTipsById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Tips = db.collection('tips')
     const newId = new ObjectId(req.params.id)
@@ -50,10 +50,10 @@ async function GetTipsById(rut: string,{ req, res }: Context) {
 }
 
 /* ☝️ PUT Update a sanitaryQuestions by ID*/
-async function UpdateTipsById(id: string,{ req, res }: Context) {
+async function UpdateTipsById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Tips = db.collection('tips')
-    const newId = new ObjectId(id)
+    const newId = new ObjectId(req.params.id)
     const resp = Tips.findOneAndUpdate({'_id': newId }, {$set: req.body})
     const body = await resp
     connection.close()

@@ -34,7 +34,7 @@ async function GetPlanners({ req, res }: Context) {
 }
 
 /* GET planner by id */
-async function GetPlannerById(rut: string,{ req, res }: Context) {
+async function GetPlannerById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Planners = db.collection('planner')
     const newId = new ObjectId(req.params.id)
@@ -50,10 +50,10 @@ async function GetPlannerById(rut: string,{ req, res }: Context) {
 }
 
 /* ☝️ PUT Update a planner by ID*/
-async function UpdatePlannerById(id: string,{ req, res }: Context) {
+async function UpdatePlannerById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Planners = db.collection('planner')
-    const newId = new ObjectId(id)
+    const newId = new ObjectId(req.params.id)
     const resp = Planners.findOneAndUpdate({'_id': newId }, {$set: req.body})
     const body = await resp
     connection.close()

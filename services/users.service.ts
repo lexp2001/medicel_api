@@ -34,7 +34,7 @@ async function GetUsers({ req, res }: Context) {
 }
 
 /* GET users by id */
-async function GetUsersById(rut: string,{ req, res }: Context) {
+async function GetUsersById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Events = db.collection('users')
     const newId = new ObjectId(req.params.id)
@@ -50,10 +50,10 @@ async function GetUsersById(rut: string,{ req, res }: Context) {
 }
 
 /* ☝️ PUT Update a sanitaryQuestions by ID*/
-async function UpdateUserById(id: string,{ req, res }: Context) {
+async function UpdateUserById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Users = db.collection('users')
-    const newId = new ObjectId(id)
+    const newId = new ObjectId(req.params.id)
     const resp = Users.findOneAndUpdate({'_id': newId }, {$set: req.body})
     const body = await resp
     connection.close()

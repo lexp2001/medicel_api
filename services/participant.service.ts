@@ -58,7 +58,8 @@ async function GetParticipantByRut({ req, res }: Context) {
 }
 
 /* 👍 GET Participant by email */
-async function GetParticipantByEmail(email: string, { req, res }: Context) {
+async function GetParticipantByEmail({ req, res }: Context) {
+    const email = req.params.email
     const { db, connection } = await createConnection()
     const Participants = db.collection('participant')
     const resp = Participants.aggregate([{
@@ -84,7 +85,7 @@ async function GetParticipantByEmail(email: string, { req, res }: Context) {
 }
 
 /* GET Participant by id */
-async function GetParticipantById(rut: string, { req, res }: Context) {
+async function GetParticipantById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Events = db.collection('participant')
     const newId = new ObjectId(req.params.id)
@@ -124,10 +125,10 @@ async function GetParticipantStartTotal({ req, res }: Context) {
 }
 
 /* ☝️ PUT Update a participant by ID*/
-async function UpdateParticipantById(id: string,{ req, res }: Context) {
+async function UpdateParticipantById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Participants = db.collection('participant')
-    const newId = new ObjectId(id)
+    const newId = new ObjectId(req.params.id)
     const resp = Participants.findOneAndUpdate({'_id': newId }, {$set: req.body})
     const body = await resp
     connection.close()
@@ -139,11 +140,11 @@ async function UpdateParticipantById(id: string,{ req, res }: Context) {
 }
 
 /* ☝️ PUT Update a participant by RUT*/
-async function UpdateParticipantByRut(Rut: string,{ req, res }: Context) {
+async function UpdateParticipantByRut({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Participants = db.collection('participant')
-    const newId = new ObjectId(Rut)
-    const resp = Participants.findOneAndUpdate({'_id': newId }, {$set: req.body})
+    const newRut = new ObjectId(req.params.rut)
+    const resp = Participants.findOneAndUpdate({'rut': newRut }, {$set: req.body})
     const body = await resp
     connection.close()
     if (body) {
@@ -154,7 +155,7 @@ async function UpdateParticipantByRut(Rut: string,{ req, res }: Context) {
 }
 
 /* GET getParticipantWithSQuestions */
-async function GetParticipantsWithSQuestions(rut: string, { req, res }: Context) {
+async function GetParticipantsWithSQuestions({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Participants = db.collection('participant')
     const resp = Participants.aggregate([{

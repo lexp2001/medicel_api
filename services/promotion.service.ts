@@ -34,7 +34,7 @@ async function GetPromotions ({ req, res }: Context) {
 }
 
 /* GET Promotion by id */
-async function GetPromotionsById(rut: string,{ req, res }: Context) {
+async function GetPromotionsById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Promotions = db.collection('promotion')
     const newId = new ObjectId(req.params.id)
@@ -50,10 +50,10 @@ async function GetPromotionsById(rut: string,{ req, res }: Context) {
 }
 
 /* ☝️ PUT Update a promotion by ID*/
-async function UpdatePromotionById(id: string,{ req, res }: Context) {
+async function UpdatePromotionById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Promotions = db.collection('promotion')
-    const newId = new ObjectId(id)
+    const newId = new ObjectId(req.params.id)
     const resp = Promotions.findOneAndUpdate({'_id': newId }, {$set: req.body})
     const body = await resp
     connection.close()

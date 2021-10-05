@@ -34,7 +34,7 @@ async function GetSanitaryQuestions ({ req, res }: Context) {
 }
 
 /* GET sanitaryQuestions by id */
-async function GetSanitaryQuestionById(rut: string,{ req, res }: Context) {
+async function GetSanitaryQuestionById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const sanitaryQuestions = db.collection('sanitaryQuestions')
     const newId = new ObjectId(req.params.id)
@@ -50,10 +50,10 @@ async function GetSanitaryQuestionById(rut: string,{ req, res }: Context) {
 }
 
 /* ☝️ PUT Update a sanitaryQuestions by ID*/
-async function UpdateSanitaryQuestionById(id: string,{ req, res }: Context) {
+async function UpdateSanitaryQuestionById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const SanitaryQuestions = db.collection('sanitaryQuestions')
-    const newId = new ObjectId(id)
+    const newId = new ObjectId(req.params.id)
     const resp = SanitaryQuestions.findOneAndUpdate({'_id': newId }, {$set: req.body})
     const body = await resp
     connection.close()
