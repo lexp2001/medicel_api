@@ -49,30 +49,24 @@ async function GetEventsById(rut: string,{ req, res }: Context) {
 }
 
 
-/* ☝️ PUT Update a event */
-async function UpdateEventById(rut: string,{ req, res }: Context) {
+/* ☝️ PUT Update a event by ID*/
+async function UpdateEventById(id: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
-    const Administrators = db.collection('event')
-    const newId = new ObjectId(req.params.id)
-    const resp = Administrators.findOneAndUpdate(
-    { "id": (req.params.id) },
-    { $set: req.body },
-    function (err, item) {
-        if (err) throw err
-        if (err) {
-            res.status(500).send("Error intentando actualizar el usuario")
-        } else {
-            if (item.value == null) {
-                res.status(404).send("Usuario con Id especificado no existe")
-            } else {
-                res.status(202).json(item.value)
-            }
-        }
-    })
+    const Events = db.collection('event')
+    const newId = new ObjectId(id)
+    const resp = Events.findOneAndUpdate({'_id': newId }, {$set: req.body})
+    const body = await resp
+    connection.close()
+    if (body) {
+        res.status(200).json(body)
+    } else {
+        res.status(404).send("Event con Id especificado no existe")
+    }
 }
 
 /* DELETE a event by Id  */
-async function DeleteEventById(rut: string,{ req, res }: Context) {
+async function DeleteEventById({ req, res }: Context) {
+    const id = req.params.id
     const { db, connection, ObjectId } = await createConnection()
     const Events = db.collection('event')
     const newId = new ObjectId(req.params.id)

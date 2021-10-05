@@ -49,30 +49,23 @@ async function GetTipsById(rut: string,{ req, res }: Context) {
     
 }
 
-/* ☝️ PUT Update a tip */
-async function UpdateTipsById(rut: string,{ req, res }: Context) {
+/* ☝️ PUT Update a sanitaryQuestions by ID*/
+async function UpdateTipsById(id: string,{ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Tips = db.collection('tips')
-    const newId = new ObjectId(req.params.id)
-    const resp = Tips.findOneAndUpdate(
-    { "id": (req.params.id) },
-    { $set: req.body },
-    function (err, item) {
-        if (err) throw err
-        if (err) {
-            res.status(500).send("Error intentando actualizar el usuario")
-        } else {
-            if (item.value == null) {
-                res.status(404).send("Usuario con Id especificado no existe")
-            } else {
-                res.status(202).json(item.value)
-            }
-        }
-    })
+    const newId = new ObjectId(id)
+    const resp = Tips.findOneAndUpdate({'_id': newId }, {$set: req.body})
+    const body = await resp
+    connection.close()
+    if (body) {
+        res.status(200).json(body)
+    } else {
+        res.status(404).send("Tips con Id especificado no existe")
+    }
 }
 
 /* DELETE a tip by Id  */
-async function DeleteTipsById(rut: string,{ req, res }: Context) {
+async function DeleteTipsById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Tips = db.collection('tips')
     const newId = new ObjectId(req.params.id)

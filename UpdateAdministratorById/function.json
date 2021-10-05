@@ -6,7 +6,7 @@
       "direction": "in",
       "name": "req",
       "methods": ["put"],
-      "route": "UpdateAdministratorById/{_id}"
+      "route": "UpdateAdministratorById/{id}"
     },
     {
       "type": "http",
