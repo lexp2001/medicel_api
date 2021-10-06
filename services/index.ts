@@ -21,3 +21,16 @@ export { tipsService};
 
 import usersService from "./users.service";
 export { usersService};
+
+import laborService from "./labor.service";
+export { laborService};
+
+
+import generaladminService from "./generaladmin.service";
+export { generaladminService};
+
+import testerService from "./tester.service";
+export { testerService};
+
+import laboratoryService from "./laboratory.service";
+export { laboratoryService};

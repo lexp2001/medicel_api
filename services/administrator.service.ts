@@ -33,9 +33,9 @@ async function GetAdministrators({ req, res }: Context) {
 /* GET Administrator by id */
 async function GetAdministratorById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
-    const Events = db.collection('administrator')
+    const Administrators = db.collection('administrator')
     const newId = new ObjectId(req.params.id)
-    const resp = Events.findOne({'_id' : newId})
+    const resp = Administrators.findOne({'_id' : newId})
     const body = await resp
     connection.close()
     if (body) {
