@@ -33,7 +33,7 @@ async function GetEvents({ req, res }: Context) {
 }
 
 /* GET Event by id */
-async function GetEventsById(rut: string,{ req, res }: Context) {
+async function GetEventsById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Events = db.collection('event')
     const newId = new ObjectId(req.params.id)
@@ -50,10 +50,10 @@ async function GetEventsById(rut: string,{ req, res }: Context) {
 
 
 /* ☝️ PUT Update a event by ID*/
-async function UpdateEventById(id: string,{ req, res }: Context) {
+async function UpdateEventById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Events = db.collection('event')
-    const newId = new ObjectId(id)
+    const newId = new ObjectId(req.params.id)
     const resp = Events.findOneAndUpdate({'_id': newId }, {$set: req.body})
     const body = await resp
     connection.close()

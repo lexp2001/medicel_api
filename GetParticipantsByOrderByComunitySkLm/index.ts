@@ -1,7 +1,7 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions';
 import { participantService } from '../services';
 
-const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
+const httpTrigger: AzureFunction = async function (context: Context,): Promise<void> {
   await participantService.GetParticipantsByOrderByComunitySkLm (context); // 👈 This calls the participant service
 };
 
