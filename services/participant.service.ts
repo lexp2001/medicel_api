@@ -3,10 +3,6 @@ import { createConnection } from '../shared/mongo'
 var ObjectId = require('mongodb').ObjectId;
 
 
-// This was async function getParticipants(req: Request, res: Response) {
-// 👇
-
-
 /* 👍 POST Create a new participant */
 async function CreateParticipant({ req, res }: Context) {
     const { db, connection } = await createConnection()
@@ -84,6 +80,35 @@ async function GetParticipantByEmail({ req, res }: Context) {
     }
 }
 
+/* 👍 ParticipantLogin */
+async function ParticipantLogin({ req, res }: Context) {
+    const email = req.body.email
+    const pass = req.body.password
+    const { db, connection } = await createConnection()
+    const Participants = db.collection('participant')
+    const resp = Participants.aggregate([{
+        '$lookup': {
+            'from': 'sanitaryQuestions',
+            'localField': 'rut',
+            'foreignField': 'rut',
+            'as': 'sQuestions'
+        }
+    }, {
+        '$match': {
+            'email': email,
+            'password': pass
+        }
+    },
+    ])
+    const body = await resp.toArray()
+    connection.close()
+    if (body.length>0) {
+        res.status(200).json(body[0])
+    } else {
+        res.status(404).send("Senha incorreta")
+    }
+}
+
 /* GET Participant by id */
 async function GetParticipantById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
@@ -135,7 +160,7 @@ async function UpdateParticipantById({ req, res }: Context) {
     if (body) {
         res.status(200).json(body)
     } else {
-        res.status(404).send("Administraor con Id especificado no existe")
+        res.status(404).send("Participant con Id especificado no existe")
     }
 }
 
@@ -250,5 +275,6 @@ export default {
     DeleteParticipantByRut,
     UpdateParticipantByRut,
     UpdateParticipantById,
-    GetParticipantByEmail
+    GetParticipantByEmail,
+    ParticipantLogin
 };
