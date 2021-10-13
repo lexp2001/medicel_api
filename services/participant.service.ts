@@ -149,7 +149,7 @@ async function GetParticipantStartTotal({ req, res }: Context) {
     res.status(200).json(body)
 }
 
-/* ☝️ PUT Update a participant by ID*/
+/*  PUT Update a participant by ID*/
 async function UpdateParticipantById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Participants = db.collection('participant')
@@ -164,12 +164,14 @@ async function UpdateParticipantById({ req, res }: Context) {
     }
 }
 
-/* ☝️ PUT Update a participant by RUT*/
+/*  👍 PUT Update a participant by RUT*/
 async function UpdateParticipantByRut({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Participants = db.collection('participant')
-    const newRut = new ObjectId(req.params.rut)
-    const resp = Participants.findOneAndUpdate({'rut': newRut }, {$set: req.body})
+    const newRut = req.params.rut
+    var payload = req.body
+    delete payload._id
+    const resp = Participants.findOneAndUpdate({'rut': newRut }, {$set: payload})
     const body = await resp
     connection.close()
     if (body) {
