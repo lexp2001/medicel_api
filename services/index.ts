@@ -34,3 +34,12 @@ export { testerService};
 
 import laboratoryService from "./laboratory.service";
 export { laboratoryService};
+
+import laborTestsService from "./laborTests.service";
+export { laborTestsService};
+
+import laborUsersService from "./laborUsers.service";
+export { laborUsersService};
+
+import laborReportsService from "./laborReports.service";
+export { laborReportsService};
