@@ -2,7 +2,7 @@ import { Context } from '@azure/functions'
 import { createConnection } from '../shared/mongo'
 
 
-/* ☝️  POST Create a new labor */
+/* 👍 POST Create a new labor */
 async function CreateLabor({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Labors = db.collection('labor')
@@ -19,7 +19,7 @@ async function CreateLabor({ req, res }: Context) {
 }
 
 
-/* GET labor */
+/* 👍 GET labor */
 async function GetLabors({ req, res }: Context) {
     const { db, connection } = await createConnection()
     const Labors = db.collection('labor')
@@ -53,6 +53,7 @@ async function UpdateLaborById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Labors = db.collection('labor')
     const newId = new ObjectId(req.params.id)
+    delete req.body._id
     const resp = Labors.findOneAndUpdate({'_id': newId }, {$set: req.body})
     const body = await resp
     connection.close()
@@ -63,7 +64,7 @@ async function UpdateLaborById({ req, res }: Context) {
     }
 }
 
-/* DELETE a labor by Id  */
+/* 👍 DELETE a labor by Id  */
 async function DeleteLaborById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Labors = db.collection('labor')
