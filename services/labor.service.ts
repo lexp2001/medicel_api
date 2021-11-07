@@ -48,7 +48,7 @@ async function GetLaborById({ req, res }: Context) {
 
 
 
-/* ☝️ PUT Update a labor by ID*/
+/* ☝️ 👍 PUT Update a labor by ID*/
 async function UpdateLaborById({ req, res }: Context) {
     const { db, connection, ObjectId } = await createConnection()
     const Labors = db.collection('labor')
