@@ -43,3 +43,6 @@ export { laborUsersService};
 
 import laborReportsService from "./laborReports.service";
 export { laborReportsService};
+
+import workersService from "./workers.service";
+export { workersService};
