@@ -10,14 +10,21 @@ async function CreateLaborTest({ req, res }: Context) {
     var body = null
     let fullPayload = []
     req.body.forEach((element: any, i: number) => {
-        fullPayload.push(
+        if (i>0) {
+            fullPayload.push(
             {
+                "proyecto": element[2],
                 "rut": element[6],
                 "name": element[7],
                 "celular": element[11],
                 "email": element[12],
-                "horario": element[17]
+                "sede": element[15],
+                "horario": element[17],
+                "direccion": element[18],
+                 
             })
+        }
+        
     });
     // console.info(fullPayload)
     // const resp = LaborsTests.insertMany(fullPayload)
