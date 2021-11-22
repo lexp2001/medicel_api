@@ -25,6 +25,8 @@ export { usersService};
 import laborService from "./labor.service";
 export { laborService};
 
+import faenaService from "./faena.service";
+export { faenaService};
 
 import generaladminService from "./generaladmin.service";
 export { generaladminService};
