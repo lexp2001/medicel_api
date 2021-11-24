@@ -46,7 +46,6 @@ async function GetEventsById({ req, res }: Context) {
     } else {
         res.status(404).send("Event con Id especificado no existe")
     }
-
 }
 
 async function GetEventsByType({ req, res }: Context) {
@@ -62,7 +61,6 @@ async function GetEventsByType({ req, res }: Context) {
     } else {
         res.status(404).send("Event con tipo especificado no existe")
     }
-
 }
 
 /* ☝️ PUT Update a event by ID*/
@@ -71,6 +69,7 @@ async function UpdateEventById({ req, res }: Context) {
     const Events = db.collection('event')
     const newId = new ObjectId(req.params.id)
     delete req.body._id
+    console.log(req.body)
     const resp = Events.findOneAndUpdate({ '_id': newId }, { $set: req.body })
     const body = await resp
     connection.close()
